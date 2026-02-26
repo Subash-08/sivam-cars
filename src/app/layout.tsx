@@ -4,7 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import AuthProvider from '@/components/providers/AuthProvider';
-
+import Script from 'next/script';
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const inter = Inter({
     subsets: ['latin'],
     display: 'swap',
@@ -37,6 +38,23 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className={inter.variable} suppressHydrationWarning>
+            <head>
+                <Script
+                    src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+                    strategy="afterInteractive"
+                />
+
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', '${GA_ID}');
+  `}
+                </Script>
+
+            </head>
             <body className="min-h-screen bg-background text-foreground antialiased">
                 <AuthProvider>
                     {children}
