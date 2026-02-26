@@ -15,6 +15,12 @@ export default function LoginPage() {
     const [serverError, setServerError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) });
+
     // Redirect to admin dashboard if already authenticated
     useEffect(() => {
         if (status === 'authenticated') {
@@ -35,12 +41,6 @@ export default function LoginPage() {
             </div>
         );
     }
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) });
 
     const onSubmit = async (data: LoginInput) => {
         setIsLoading(true);
