@@ -12,15 +12,32 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
+                console.log('[NextAuth] Incoming login attempt for:', credentials?.email);
+
                 const parsed = loginSchema.safeParse(credentials);
-                if (!parsed.success) return null;
+                if (!parsed.success) {
+                    console.error('[NextAuth] Zod validation failed:', parsed.error);
+                    return null;
+                }
 
-                const admin = await verifyAdminCredentials(
-                    parsed.data.email,
-                    parsed.data.password,
-                );
+                console.log('[NextAuth] Validation passed. Verifying against MongoDB...');
+                try {
+                    const admin = await verifyAdminCredentials(
+                        parsed.data.email,
+                        parsed.data.password,
+                    );
 
-                return admin;
+                    if (!admin) {
+                        console.error('[NextAuth] verification returned null. Incorrect credentials or user missing.');
+                    } else {
+                        console.log('[NextAuth] Verification successful for user ID:', admin.id);
+                    }
+
+                    return admin;
+                } catch (error) {
+                    console.error('[NextAuth] Fatal error inside authorize callback:', error);
+                    return null;
+                }
             },
         }),
     ],
@@ -49,5 +66,6 @@ export const authOptions: NextAuthOptions = {
             return session;
         },
     },
+    debug: process.env.NODE_ENV === 'development' || true, // Force debug logs in Vercel temporarily
     secret: process.env.NEXTAUTH_SECRET,
 };
