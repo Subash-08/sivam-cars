@@ -5,6 +5,8 @@ import './globals.css';
 import { siteConfig } from '@/config/site';
 import AuthProvider from '@/components/providers/AuthProvider';
 import Script from 'next/script';
+import { GoogleAnalyticsTracker } from '@/components/providers/GoogleAnalyticsTracker';
+
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const inter = Inter({
     subsets: ['latin'],
@@ -58,6 +60,7 @@ export default function RootLayout({
             <body className="min-h-screen bg-background text-foreground antialiased">
                 <AuthProvider>
                     {children}
+                    <GoogleAnalyticsTracker />
                 </AuthProvider>
                 <Toaster
                     position="top-right"

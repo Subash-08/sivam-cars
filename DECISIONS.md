@@ -127,3 +127,13 @@
 - **Rationale:** These features were explicitly excluded in requirements. The business model is lead generation only.
 - **Consequences:** Any AI system working on this codebase must refuse to implement these features without explicit human unlocking of this decision.
 - **Reversal Condition:** Explicit human instruction to unlock this decision and update this document.
+
+---
+
+### [DECISION-012] ISR Allowed ONLY for Blog Feature
+- **Status:** Locked (Exception to [DECISION-003])
+- **Date:** 2026-02-27
+- **Decision:** The Blog listing page uses `revalidate = 60` and Blog detail pages use `revalidate = 300`. An on-demand revalidation webhook is provided for n8n/admin publishing events.
+- **Rationale:** The user explicitly requested an SEO-first blog system with ISR and n8n webhooks. Since blog content is read-heavy and updates are less critical than inventory availability, ISR is appropriate here to maximize performance and crawlability.
+- **Consequences:** Fast TTFB for blogs. Requires `/api/revalidate` helper logic.
+- **Reversal Condition:** If caching causes issues with admin UI expectations, this should switch back to SSR.

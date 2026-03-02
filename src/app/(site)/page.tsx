@@ -12,8 +12,9 @@ import { InventoryDepthSection } from '@/components/public/home/InventoryDepthSe
 import { BrowseByCategorySection } from '@/components/public/home/BrowseByCategorySection';
 import { WhyChooseUsSection } from '@/components/public/home/WhyChooseUsSection';
 import { BuyingProcessSection } from '@/components/public/home/BuyingProcessSection';
-import { LocationSection } from '@/components/public/home/LocationSection';
-import { SeoFooterSection } from '@/components/public/home/SeoFooterSection';
+import PrimaryCTASection from '@/components/public/shared/PrimaryCTASection';
+import TestimonialsSection from '@/components/public/home/TestimonialsSection';
+import FAQSection from '@/components/public/home/FAQSection';
 
 export const metadata: Metadata = {
     title: `${siteConfig.name} — ${siteConfig.tagline} | Quality Used Cars`,
@@ -64,7 +65,7 @@ export default async function HomePage() {
                 name: siteConfig.name,
                 potentialAction: {
                     '@type': 'SearchAction',
-                    target: `${siteConfig.url}/buy-cars?brand={search_term_string}`,
+                    target: `${siteConfig.url}/used-cars?brand={search_term_string}`,
                     'query-input': 'required name=search_term_string',
                 },
             },
@@ -115,10 +116,13 @@ export default async function HomePage() {
                 <BrowseByCategorySection />
                 <WhyChooseUsSection />
                 <BuyingProcessSection />
-                <LocationSection />
+
+                <PrimaryCTASection />
+                <TestimonialsSection />
+                <FAQSection />
 
                 {/* Local SEO Contextual Text */}
-                <SeoFooterSection />
+                {/* <SeoFooterSection /> */}
             </main>
         </>
     );

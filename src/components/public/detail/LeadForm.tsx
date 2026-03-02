@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
 import { toast } from 'react-hot-toast';
+import { trackEvent } from '@/lib/analytics';
 
 interface LeadFormProps {
     carId: string;
@@ -46,6 +47,8 @@ export function LeadForm({ carId, carName }: LeadFormProps) {
                 toast.error(result.error ?? 'Something went wrong');
                 return;
             }
+
+            trackEvent("car_enquiry", { car_name: carName });
 
             toast.success('Enquiry submitted! We\'ll contact you shortly.');
             setSubmitted(true);

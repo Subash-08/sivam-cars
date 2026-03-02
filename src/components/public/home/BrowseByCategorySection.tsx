@@ -1,13 +1,13 @@
 import Link from 'next/link';
 
 const categories = [
-    { title: 'SUVs', slug: '/buy-cars?bodyType=suv' },
-    { title: 'Sedans', slug: '/buy-cars?bodyType=sedan' },
-    { title: 'Hatchbacks', slug: '/buy-cars?bodyType=hatchback' },
-    { title: 'Automatic', slug: '/buy-cars?transmission=automatic' },
-    { title: 'Manual', slug: '/buy-cars?transmission=manual' },
-    { title: 'Petrol Cars', slug: '/buy-cars?fuel=petrol' },
-    { title: 'Diesel Cars', slug: '/buy-cars?fuel=diesel' },
+    { title: 'SUVs', slug: '/used-cars?bodyType=suv' },
+    { title: 'Sedans', slug: '/used-cars?bodyType=sedan' },
+    { title: 'Hatchbacks', slug: '/used-cars?bodyType=hatchback' },
+    { title: 'Automatic', slug: '/used-cars?transmission=automatic' },
+    { title: 'Manual', slug: '/used-cars?transmission=manual' },
+    { title: 'Petrol Cars', slug: '/used-cars?fuel=petrol' },
+    { title: 'Diesel Cars', slug: '/used-cars?fuel=diesel' },
     { title: 'Car Buying Tips', slug: '/blog' },
 ];
 

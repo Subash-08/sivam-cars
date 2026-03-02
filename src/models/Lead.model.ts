@@ -1,12 +1,18 @@
 import mongoose, { Document, Model, Schema, Types } from 'mongoose';
 
+// ─── Lead Types ───────────────────────────────────────────────────────────────
+
+export type LeadType = 'contact' | 'enquiry' | 'sell' | 'loan' | 'negotiation';
+
 // ─── Interface ────────────────────────────────────────────────────────────────
 
 export interface ILead extends Document {
     name: string;
     phone: string;
+    email?: string;
     message?: string;
-    car: Types.ObjectId;
+    car?: Types.ObjectId;
+    type: LeadType;
     source: string;
     createdAt: Date;
     updatedAt: Date;
@@ -28,6 +34,11 @@ const LeadSchema = new Schema<ILead>(
             trim: true,
             maxlength: [15, 'Phone cannot exceed 15 characters'],
         },
+        email: {
+            type: String,
+            trim: true,
+            maxlength: [150, 'Email cannot exceed 150 characters'],
+        },
         message: {
             type: String,
             trim: true,
@@ -36,7 +47,12 @@ const LeadSchema = new Schema<ILead>(
         car: {
             type: Schema.Types.ObjectId,
             ref: 'Car',
-            required: [true, 'Car reference is required'],
+        },
+        type: {
+            type: String,
+            enum: ['contact', 'enquiry', 'sell', 'loan', 'negotiation'],
+            default: 'enquiry',
+            trim: true,
         },
         source: {
             type: String,
@@ -47,9 +63,10 @@ const LeadSchema = new Schema<ILead>(
     { timestamps: true },
 );
 
-// Index for admin queries — newest leads first
+// Indexes for admin queries
 LeadSchema.index({ createdAt: -1 });
 LeadSchema.index({ car: 1, createdAt: -1 });
+LeadSchema.index({ type: 1, createdAt: -1 });
 
 // ─── Named export ─────────────────────────────────────────────────────────────
 export const Lead: Model<ILead> =

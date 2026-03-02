@@ -44,7 +44,7 @@ export function HeroSearchForm({ brands }: HeroSearchFormProps) {
         if (!isNaN(min)) params.set("yearMin", min.toString());
         if (!isNaN(max)) params.set("yearMax", max.toString());
 
-        router.push(`/buy-cars?${params.toString()}`);
+        router.push(`/used-cars?${params.toString()}`);
     };
 
     return (

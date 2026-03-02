@@ -20,7 +20,7 @@ export function SortDropdown({ currentSort }: SortDropdownProps) {
             params.set('sort', value);
         }
         params.set('page', '1');
-        router.push(`/buy-cars?${params.toString()}`, { scroll: false });
+        router.push(`/used-cars?${params.toString()}`, { scroll: false });
     };
 
     return (

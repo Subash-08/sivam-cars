@@ -1,5 +1,5 @@
 /**
- * /buy-cars — Public car listing page (Server Component).
+ * /used-cars — Public car listing page (Server Component).
  *
  * Architecture:
  *  - SSR only (no ISR)

@@ -40,9 +40,9 @@ function MobileMenuContent({ navItems }: { navItems: NavItem[] }): React.JSX.Ele
 
         const [basePath, queryString] = href.split('?');
 
-        // If it's a parent dropdown toggle (like "Price" or "Year" linking to /buy-cars)
-        if (isDropdownParent && href === '/buy-cars') {
-            return false; // Don't highlight the parent just because we are on /buy-cars
+        // If it's a parent dropdown toggle (like "Price" or "Year" linking to /used-cars)
+        if (isDropdownParent && href === '/used-cars') {
+            return false; // Don't highlight the parent just because we are on /used-cars
         }
 
         if (queryString && searchParams) {
@@ -66,7 +66,7 @@ function MobileMenuContent({ navItems }: { navItems: NavItem[] }): React.JSX.Ele
             <button
                 type="button"
                 onClick={() => setIsOpen(true)}
-                className="inline-flex items-center justify-center rounded-lg p-2 text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+                className="inline-flex items-center justify-center rounded-lg p-2 text-white hover:text-foreground hover:bg-muted transition-colors"
                 aria-label="Open navigation menu"
                 aria-expanded={isOpen}
                 aria-controls="mobile-menu-drawer"
@@ -112,7 +112,7 @@ function MobileMenuContent({ navItems }: { navItems: NavItem[] }): React.JSX.Ele
 
                 {/* Search inside drawer */}
                 <div className="px-4 py-3 border-b border-border">
-                    <form action="/buy-cars" method="get" role="search">
+                    <form action="/used-cars" method="get" role="search">
                         <div className="relative">
                             <Search
                                 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"

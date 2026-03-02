@@ -22,7 +22,7 @@ export function ListingPagination({ pagination }: ListingPaginationProps) {
     const goToPage = (page: number) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('page', String(page));
-        router.push(`/buy-cars?${params.toString()}`);
+        router.push(`/used-cars?${params.toString()}`);
     };
 
     // Build page number array with ellipsis
@@ -60,8 +60,8 @@ export function ListingPagination({ pagination }: ListingPaginationProps) {
                         key={p}
                         onClick={() => goToPage(p)}
                         className={`min-w-[36px] h-9 rounded-lg text-sm font-medium transition-colors ${p === page
-                                ? 'bg-primary text-primary-foreground'
-                                : 'text-foreground hover:bg-muted border border-border'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-foreground hover:bg-muted border border-border'
                             }`}
                         aria-current={p === page ? 'page' : undefined}
                     >

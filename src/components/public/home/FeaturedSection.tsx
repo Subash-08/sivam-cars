@@ -15,7 +15,7 @@ export function FeaturedSection({ cars }: { cars: ListingCar[] }) {
                         <p className="mt-2 text-muted-foreground">Handpicked premium vehicles from our inventory</p>
                     </div>
                     <Link
-                        href="/buy-cars?page=1"
+                        href="/used-cars?page=1"
                         className="hidden sm:inline-flex text-primary font-semibold hover:text-primary-hover transition-colors items-center gap-1"
                     >
                         View All Cars
@@ -35,7 +35,7 @@ export function FeaturedSection({ cars }: { cars: ListingCar[] }) {
                 {/* Mobile View All button */}
                 <div className="mt-8 text-center sm:hidden">
                     <Link
-                        href="/buy-cars?page=1"
+                        href="/used-cars?page=1"
                         className="inline-flex w-full justify-center items-center gap-2 bg-secondary hover:bg-secondary/80 text-foreground font-semibold px-6 py-3 rounded-lg transition-all"
                     >
                         View All Cars

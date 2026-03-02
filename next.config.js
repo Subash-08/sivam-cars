@@ -10,10 +10,27 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      },
+      {
+        protocol: 'https',
+        hostname: 'imgd.aeplcdn.com',
+      },
     ],
   },
   experimental: {
     serverComponentsExternalPackages: ['mongoose'],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/buy-cars',
+        destination: '/used-cars',
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [

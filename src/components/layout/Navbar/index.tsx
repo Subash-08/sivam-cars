@@ -4,7 +4,7 @@ import PrimaryNav from '@/components/layout/Navbar/PrimaryNav';
 import { connectDB } from '@/lib/db';
 import { Brand } from '@/models';
 import type { NavItem } from '@/types';
-import { FUEL_TYPES, BODY_TYPES, TRANSMISSIONS } from '@/types/filter.types';
+import { FUEL_TYPES, BODY_TYPES } from '@/types/filter.types';
 
 export default async function Navbar(): Promise<React.JSX.Element> {
     await connectDB();
@@ -18,64 +18,66 @@ export default async function Navbar(): Promise<React.JSX.Element> {
     // Build the dynamic nav items array
     const navItems: NavItem[] = [
         { label: 'Home', href: '/' },
-        { label: 'Buy Cars', href: '/buy-cars' },
+        { label: 'Buy Cars', href: '/used-cars' },
         {
             label: 'Price',
-            href: '/buy-cars',
+            href: '/used-cars',
             children: [
-                { label: 'Under ₹5 Lakhs', href: '/buy-cars?priceMax=500000' },
-                { label: '₹5 Lakhs - ₹10 Lakhs', href: '/buy-cars?priceMin=500000&priceMax=1000000' },
-                { label: '₹10 Lakhs - ₹20 Lakhs', href: '/buy-cars?priceMin=1000000&priceMax=2000000' },
-                { label: 'Above ₹20 Lakhs', href: '/buy-cars?priceMin=2000000' },
+                { label: 'Under ₹5 Lakhs', href: '/used-cars?priceMax=500000' },
+                { label: '₹5 Lakhs - ₹10 Lakhs', href: '/used-cars?priceMin=500000&priceMax=1000000' },
+                { label: '₹10 Lakhs - ₹20 Lakhs', href: '/used-cars?priceMin=1000000&priceMax=2000000' },
+                { label: 'Above ₹20 Lakhs', href: '/used-cars?priceMin=2000000' },
             ]
         },
         {
             label: 'Year',
-            href: '/buy-cars',
+            href: '/used-cars',
             children: [
-                { label: '2022 & Above', href: '/buy-cars?yearMin=2022' },
-                { label: '2019 - 2021', href: '/buy-cars?yearMin=2019&yearMax=2021' },
-                { label: '2016 - 2018', href: '/buy-cars?yearMin=2016&yearMax=2018' },
-                { label: '2015 & Below', href: '/buy-cars?yearMax=2015' },
+                { label: '2022 & Above', href: '/used-cars?yearMin=2022' },
+                { label: '2019 - 2021', href: '/used-cars?yearMin=2019&yearMax=2021' },
+                { label: '2016 - 2018', href: '/used-cars?yearMin=2016&yearMax=2018' },
+                { label: '2015 & Below', href: '/used-cars?yearMax=2015' },
             ]
         },
         {
             label: 'Brand',
-            href: '/buy-cars',
+            href: '/used-cars',
             children: brands.map((b) => ({
                 label: b.name,
-                href: `/buy-cars?brand=${b.slug}`
+                href: `/used-cars?brand=${b.slug}`
             }))
         },
         {
             label: 'Fuel Type',
-            href: '/buy-cars',
-            children: FUEL_TYPES.map((f) => ({ label: f, href: `/buy-cars?fuel=${f}` }))
+            href: '/used-cars',
+            children: FUEL_TYPES.map((f) => ({ label: f, href: `/used-cars?fuel=${f}` }))
         },
         {
             label: 'Body Type',
-            href: '/buy-cars',
-            children: BODY_TYPES.map((b) => ({ label: b, href: `/buy-cars?bodyType=${b}` }))
+            href: '/used-cars',
+            children: BODY_TYPES.map((b) => ({ label: b, href: `/used-cars?bodyType=${b}` }))
         },
-        {
-            label: 'Transmission',
-            href: '/buy-cars',
-            children: TRANSMISSIONS.map((t) => ({ label: t, href: `/buy-cars?transmission=${t}` }))
-        },
-        { label: 'Sell Cars', href: '/sell' },
+        // {
+        //     label: 'Transmission',
+        //     href: '/used-cars',
+        //     children: TRANSMISSIONS.map((t) => ({ label: t, href: `/used-cars?transmission=${t}` }))
+        // },
+        { label: 'Sell Cars', href: '/sell-car' },
         { label: 'Loan', href: '/loan' },
+        { label: 'About', href: '/about' },
+        { label: 'Blog', href: '/blog' },
         { label: 'Contact', href: '/contact' },
     ];
 
     return (
         <header>
-            {/* Section 1 — Top promotional bar */}
+            {/* Section 1 â€” Top promotional bar */}
             <TopBar />
 
-            {/* Section 2 — Logo, search, CTA, Mobile Menu */}
+            {/* Section 2 â€” Logo, search, CTA, Mobile Menu */}
             <MainHeader navItems={navItems} />
 
-            {/* Section 3 — Primary navigation links (desktop only) */}
+            {/* Section 3 â€” Primary navigation links (desktop only) */}
             <PrimaryNav navItems={navItems} />
         </header>
     );

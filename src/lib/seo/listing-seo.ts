@@ -1,5 +1,5 @@
 /**
- * src/lib/seo/listing-seo.ts — SEO helpers for /buy-cars page.
+ * src/lib/seo/listing-seo.ts — SEO helpers for /used-cars page.
  *
  * Architecture: pure functions only — no DB, no HTTP.
  * Uses siteConfig for canonical URLs.
@@ -41,12 +41,12 @@ export function generateListingMetadata(input: MetadataInput): Metadata {
     return {
         title,
         description: description.slice(0, 160),
-        alternates: { canonical: '/buy-cars' },
+        alternates: { canonical: '/used-cars' },
         openGraph: {
             title,
             description: description.slice(0, 160),
             type: 'website',
-            url: `${siteConfig.url}/buy-cars`,
+            url: `${siteConfig.url}/used-cars`,
             siteName: siteConfig.name,
         },
     };
@@ -97,7 +97,7 @@ export function generateListingJsonLd(input: JsonLdInput): object[] {
         '@type': 'BreadcrumbList',
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
-            { '@type': 'ListItem', position: 2, name: 'Buy Cars', item: `${siteConfig.url}/buy-cars` },
+            { '@type': 'ListItem', position: 2, name: 'Used Cars', item: `${siteConfig.url}/used-cars` },
         ],
     };
 

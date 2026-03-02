@@ -28,7 +28,7 @@ export function BrandSection({ brands }: { brands: BrandStat[] }) {
                     {brands.map((brand) => (
                         <Link
                             key={brand._id}
-                            href={`/buy-cars?page=1&brand=${brand.slug}`}
+                            href={`/used-cars?page=1&brand=${brand.slug}`}
                             className="flex flex-col items-center justify-center p-6 bg-card border border-border rounded-xl transition-all duration-200 hover:border-primary/50 hover:shadow-md group"
                         >
                             {/* Logo Wrapper */}

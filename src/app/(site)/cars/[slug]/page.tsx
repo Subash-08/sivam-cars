@@ -9,7 +9,6 @@ import { ChevronRight } from 'lucide-react';
 import { CarDetailService } from '@/services/public/car-detail.service';
 import { generateDetailMetadata, generateVehicleJsonLd } from '@/lib/seo/vehicle-schema';
 import { formatINR, formatKms } from '@/lib/utils';
-import { siteConfig } from '@/config/site';
 import { ImageGallery } from '@/components/public/detail/ImageGallery';
 import { StickySidebar } from '@/components/public/detail/StickySidebar';
 import { LeadForm } from '@/components/public/detail/LeadForm';
@@ -18,6 +17,8 @@ import { FeaturesSection } from '@/components/public/detail/FeaturesSection';
 import { SimilarCars } from '@/components/public/detail/SimilarCars';
 import { EmiCalculator } from '@/components/public/detail/EmiCalculator';
 import { ReelVideosSection } from '@/components/public/detail/ReelVideosSection';
+import { ViewCarTracker } from '@/components/public/detail/ViewCarTracker';
+import { MobileStickyCTA } from '@/components/public/detail/MobileStickyCTA';
 
 const service = new CarDetailService();
 
@@ -60,15 +61,23 @@ export default async function CarDetailPage({ params }: Props) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
+            <ViewCarTracker
+                name={car.name}
+                brand={car.brand.name}
+                price={car.price}
+                fuel={car.fuelType}
+                year={car.year}
+            />
+
             <div className="bg-background min-h-screen">
                 {/* ── Breadcrumb ───────────────────────────────────────────── */}
                 <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
                     <ol className="flex items-center gap-1.5 text-xs text-muted-foreground">
                         <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
                         <li><ChevronRight className="w-3 h-3" /></li>
-                        <li><Link href="/buy-cars" className="hover:text-primary transition-colors">Buy Cars</Link></li>
+                        <li><Link href="/used-cars" className="hover:text-primary transition-colors">Used Cars</Link></li>
                         <li><ChevronRight className="w-3 h-3" /></li>
-                        <li><Link href={`/buy-cars?brand=${car.brand.slug}`} className="hover:text-primary transition-colors">{car.brand.name}</Link></li>
+                        <li><Link href={`/used-cars?brand=${car.brand.slug}`} className="hover:text-primary transition-colors">{car.brand.name}</Link></li>
                         <li><ChevronRight className="w-3 h-3" /></li>
                         <li className="text-foreground font-medium truncate max-w-[200px]">{car.year} {car.name}</li>
                     </ol>
@@ -199,22 +208,11 @@ export default async function CarDetailPage({ params }: Props) {
 
                 {/* Mobile Sticky CTA — fixed bottom bar */}
                 {!car.isSold && (
-                    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-3 flex gap-2 lg:hidden z-40">
-                        <a
-                            href={`tel:${siteConfig.phone}`}
-                            className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground font-semibold text-sm transition-colors"
-                        >
-                            📞 Call Now
-                        </a>
-                        <a
-                            href={`${siteConfig.social.whatsapp}?text=${encodeURIComponent(`Hi, I'm interested in the ${car.year} ${car.brand.name} ${car.name}`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-lg bg-success text-primary-foreground font-semibold text-sm transition-colors hover:opacity-90"
-                        >
-                            💬 WhatsApp
-                        </a>
-                    </div>
+                    <MobileStickyCTA
+                        carName={car.name}
+                        carYear={car.year}
+                        brandName={car.brand.name}
+                    />
                 )}
 
                 {/* Spacer for mobile sticky bar */}

@@ -12,7 +12,7 @@ export function SimilarCars({ cars }: SimilarCarsProps) {
         <section>
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold text-foreground">Similar Cars</h2>
-                <Link href="/buy-cars" className="text-xs text-primary hover:underline font-medium">
+                <Link href="/used-cars" className="text-xs text-primary hover:underline font-medium">
                     View all →
                 </Link>
             </div>

@@ -3,7 +3,7 @@ import { siteConfig } from '@/config/site';
 
 export default function TopBar(): React.JSX.Element {
     return (
-        <div className="bg-primary text-primary-foreground">
+        <div className="bg-red-500 text-primary-foreground">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="hidden md:flex items-center justify-between h-9 text-xs font-medium">
                     {/* Promotional message */}

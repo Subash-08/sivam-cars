@@ -16,7 +16,7 @@ export function NoResults() {
                 We couldn&apos;t find any cars matching your criteria. Try adjusting your filters or clearing them.
             </p>
             <button
-                onClick={() => router.push('/buy-cars')}
+                onClick={() => router.push('/used-cars')}
                 className="px-5 py-2.5 bg-primary text-primary-foreground text-sm font-semibold rounded-lg hover:bg-primary-hover transition-colors"
             >
                 Clear All Filters

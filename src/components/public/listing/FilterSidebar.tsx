@@ -56,7 +56,7 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
             if (val) { params.set(key, val); } else { params.delete(key); }
             params.set('page', '1');
             startTransition(() => {
-                router.push(`/buy-cars?${params.toString()}`, { scroll: false });
+                router.push(`/used-cars?${params.toString()}`, { scroll: false });
             });
         },
         [router, searchParams],
@@ -81,7 +81,7 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
         params.set('page', '1');
 
         startTransition(() => {
-            router.push(`/buy-cars?${params.toString()}`, { scroll: false });
+            router.push(`/used-cars?${params.toString()}`, { scroll: false });
         });
     };
 
@@ -110,7 +110,7 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
         setPriceMin(''); setPriceMax('');
         setYearMin(''); setYearMax('');
         setKmsMax(''); setBrandSearch('');
-        router.push('/buy-cars');
+        router.push('/used-cars');
     };
 
     return (

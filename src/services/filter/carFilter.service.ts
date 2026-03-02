@@ -308,7 +308,7 @@ export class CarFilterService {
         };
     }
 
-    // ── Public Listing API (used by /buy-cars page) ─────────────────────────────
+    // ── Public Listing API (used by /used-cars page) ─────────────────────────────
 
     /**
      * Fetches cars for the public listing page.

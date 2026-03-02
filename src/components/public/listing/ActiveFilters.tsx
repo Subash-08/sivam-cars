@@ -21,7 +21,7 @@ export function ActiveFilters({ brandNames }: ActiveFiltersProps) {
             params.delete(key);
         }
         params.set('page', '1');
-        router.push(`/buy-cars?${params.toString()}`, { scroll: false });
+        router.push(`/used-cars?${params.toString()}`, { scroll: false });
     };
 
     const chips: Array<{ key: string; label: string; value?: string }> = [];
@@ -64,7 +64,7 @@ export function ActiveFilters({ brandNames }: ActiveFiltersProps) {
 
     if (chips.length === 0) return null;
 
-    const clearAll = () => router.push('/buy-cars');
+    const clearAll = () => router.push('/used-cars');
 
     return (
         <div className="flex flex-wrap items-center gap-2">

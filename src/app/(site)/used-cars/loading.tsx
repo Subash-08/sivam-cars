@@ -1,5 +1,5 @@
 /**
- * /buy-cars loading skeleton — matches the grid layout structure.
+ * /used-cars loading skeleton — matches the grid layout structure.
  * Uses theme tokens only.
  */
 

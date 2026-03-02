@@ -75,8 +75,8 @@ export default function AdminSidebar() {
                             key={item.href}
                             href={item.href}
                             className={`group flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium transition-all duration-150 ${isActive
-                                    ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/30'
-                                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                                ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/30'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                                 }`}
                         >
                             <span className={isActive ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-foreground transition-colors'}>

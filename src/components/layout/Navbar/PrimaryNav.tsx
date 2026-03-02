@@ -30,9 +30,9 @@ function PrimaryNavContent({ navItems }: { navItems: NavItem[] }): React.JSX.Ele
 
         const [basePath, queryString] = href.split('?');
 
-        // If it's a parent dropdown toggle (like "Price" or "Year" linking to /buy-cars)
-        if (isDropdownParent && href === '/buy-cars') {
-            return false; // Don't highlight the parent just because we are on /buy-cars
+        // If it's a parent dropdown toggle (like "Price" or "Year" linking to /used-cars)
+        if (isDropdownParent && href === '/used-cars') {
+            return false; // Don't highlight the parent just because we are on /used-cars
         }
 
         // For children with query params, check if the query param exists in the current URL

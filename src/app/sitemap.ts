@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
+import { BlogService } from '@/services/blog/blog.service';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = siteConfig.url;
 
     const staticRoutes: MetadataRoute.Sitemap = [
@@ -61,9 +62,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
     ];
 
-    // TODO: Add dynamic car slugs and blog slugs in Phase 1
-    // const cars = await CarService.getAllSlugs();
-    // const carRoutes = cars.map(...)
+    // Add dynamic blogs
+    try {
+        const { blogs } = await BlogService.getPublicBlogs(1, 1000);
+        const blogRoutes = blogs.map((blog: any) => ({
+            url: `${baseUrl}/blog/${blog.slug}`,
+            lastModified: new Date(blog.updatedAt || blog.published_at || blog.created_at),
+            changeFrequency: 'weekly' as const,
+            priority: 0.8,
+        }));
+        staticRoutes.push(...blogRoutes);
+    } catch (err) {
+        console.error('Sitemap Blog Fetch error:', err);
+    }
 
     return staticRoutes;
 }

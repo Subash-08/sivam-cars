@@ -91,8 +91,8 @@ export function generateVehicleJsonLd(car: CarDetail): object[] {
         '@type': 'BreadcrumbList',
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
-            { '@type': 'ListItem', position: 2, name: 'Buy Cars', item: `${siteConfig.url}/buy-cars` },
-            { '@type': 'ListItem', position: 3, name: `${car.brand.name}`, item: `${siteConfig.url}/buy-cars?brand=${car.brand.slug}` },
+            { '@type': 'ListItem', position: 2, name: 'Used Cars', item: `${siteConfig.url}/used-cars` },
+            { '@type': 'ListItem', position: 3, name: `${car.brand.name}`, item: `${siteConfig.url}/used-cars?brand=${car.brand.slug}` },
             { '@type': 'ListItem', position: 4, name: `${car.year} ${car.brand.name} ${car.name}`, item: carUrl },
         ],
     };

@@ -1,7 +1,7 @@
 /**
  * src/types/listing.types.ts — Public car listing types.
  *
- * Kept separate from admin types. Used by the public /buy-cars page,
+ * Kept separate from admin types. Used by the public /used-cars page,
  * CarFilterService.getPublicListing(), and listing components.
  */
 

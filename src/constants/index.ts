@@ -12,7 +12,7 @@ export const NAV_ITEMS: NavItem[] = [
 
 export const PUBLIC_NAV_ITEMS: NavItem[] = [
     { label: 'Home', href: '/' },
-    { label: 'Buy Cars', href: '/buy-cars' }, // Handled dynamically in Navbar
+    { label: 'Used Cars', href: '/used-cars' }, // Handled dynamically in Navbar
     { label: 'Sell Cars', href: '/sell' },
     { label: 'Loan', href: '/loan' },
     { label: 'Blog', href: '/blog' },
@@ -20,7 +20,7 @@ export const PUBLIC_NAV_ITEMS: NavItem[] = [
     { label: 'Contact', href: '/contact' },
 ];
 
-export const FUEL_TYPES = ['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid'] as const;
+export const FUEL_TYPES = ['Petrol', 'Diesel', 'Petrol + CNG', 'Electric', 'Hybrid'] as const;
 
 export const TRANSMISSION_TYPES = ['Manual', 'Automatic'] as const;
 
