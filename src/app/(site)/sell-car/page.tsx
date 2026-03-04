@@ -6,7 +6,7 @@ import ValuationSection from '@/components/public/sell-car/ValuationSection';
 import WhyChooseSection from '@/components/public/sell-car/WhyChooseSection';
 import RecentSalesSection from '@/components/public/sell-car/RecentSalesSection';
 import FAQSection from '@/components/public/sell-car/FAQSection';
-import FinalCTASection from '@/components/public/sell-car/FinalCTASection';
+import PrimaryCTASection from '@/components/public/shared/PrimaryCTASection';
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
@@ -192,7 +192,7 @@ export default function SellCarPage(): React.JSX.Element {
                 <WhyChooseSection />
                 <RecentSalesSection />
                 <FAQSection />
-                <FinalCTASection />
+                <PrimaryCTASection />
             </main>
         </>
     );

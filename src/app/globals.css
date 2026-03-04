@@ -169,4 +169,13 @@
   .glow-primary {
     box-shadow: 0 4px 16px rgb(var(--color-primary) / 0.20);
   }
+
+  /* Hide scrollbar (carousel layout) */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }

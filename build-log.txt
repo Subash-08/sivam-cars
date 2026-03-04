@@ -1,0 +1,23 @@
+
+> sivamcars@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.29
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/app/(site)/sell-car/page.tsx:9:1
+Type error: 'FinalCTASection' is declared but its value is never read.
+
+[0m [90m  7 |[39m [36mimport[39m [33mRecentSalesSection[39m [36mfrom[39m [32m'@/components/public/sell-car/RecentSalesSection'[39m[33m;[39m[0m
+[0m [90m  8 |[39m [36mimport[39m [33mFAQSection[39m [36mfrom[39m [32m'@/components/public/sell-car/FAQSection'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m  9 |[39m [36mimport[39m [33mFinalCTASection[39m [36mfrom[39m [32m'@/components/public/sell-car/FinalCTASection'[39m[33m;[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 10 |[39m [36mimport[39m [33mPrimaryCTASection[39m [36mfrom[39m [32m'@/components/public/shared/PrimaryCTASection'[39m[33m;[39m[0m
+[0m [90m 11 |[39m[0m
+[0m [90m 12 |[39m [90m// ─── Metadata ─────────────────────────────────────────────────────────────────[39m[0m
+Next.js build worker exited with code: 1 and signal: null

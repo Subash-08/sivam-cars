@@ -7,10 +7,16 @@
 
 export { Brand } from './Brand.model';
 export { Car } from './Car.model';
+export { HomeSection } from './HomeSection.model';
 export { Lead } from './Lead.model';
 export { default as User } from './User.model';
+export { Video } from './Video.model';
+export { VideoSection } from './VideoSection.model';
 
 export type { IBrand } from './Brand.model';
 export type { ICar, ICarImage, ICarVideo, ICarLocation, IKeyValue } from './Car.model';
+export type { IHomeSection, LayoutType } from './HomeSection.model';
 export type { ILead } from './Lead.model';
 export type { IUser } from './User.model';
+export type { IVideo, VideoOrientation } from './Video.model';
+export type { IVideoSection, IVideoEntry, VideoLayoutType } from './VideoSection.model';

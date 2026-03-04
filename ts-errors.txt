@@ -1,0 +1,2 @@
+src/app/admin/home-sections/page.tsx(165,13): error TS2322: Type '"grid" | "carousel" | "horizontal-scroll"' is not assignable to type '"grid"'.
+  Type '"carousel"' is not assignable to type '"grid"'.

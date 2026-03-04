@@ -7,7 +7,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ brands }: HeroSectionProps): React.JSX.Element {
     return (
-        <section className="relative overflow-hidden bg-muted pt-28 pb-16 lg:pt-36 lg:pb-24">
+        <section className="relative overflow-hidden bg-muted pt-8 pb-6 lg:pt-12 lg:pb-10">
             {/* Background accents */}
             <div
                 className="absolute right-0 top-0 z-0 h-full w-1/2 skew-x-12 translate-x-1/4 bg-background/50"

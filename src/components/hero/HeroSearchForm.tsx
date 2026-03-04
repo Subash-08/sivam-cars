@@ -80,7 +80,7 @@ export function HeroSearchForm({ brands }: HeroSearchFormProps) {
                             <option value="">All Brands</option>
                             {brands.map((b) => (
                                 <option key={b._id} value={b.slug}>
-                                    {b.name} ({b.count})
+                                    {b.name}
                                 </option>
                             ))}
                         </select>

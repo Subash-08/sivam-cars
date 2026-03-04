@@ -6,7 +6,9 @@ export const NAV_ITEMS: NavItem[] = [
     { label: 'Brands', href: '/admin/brands' },
     { label: 'Blog', href: '/admin/blog' },
     { label: 'Leads', href: '/admin/leads' },
-    { label: 'Homepage', href: '/admin/homepage' },
+    { label: 'Homepage', href: '/admin/home-sections' },
+    { label: 'Videos', href: '/admin/videos' },
+    { label: 'Video Sections', href: '/admin/video-sections' },
     { label: 'Analytics', href: '/admin/analytics' },
 ];
 

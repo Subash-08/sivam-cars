@@ -2,12 +2,11 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import HeroSection from '@/components/hero/HeroSection';
 import { HomeService } from '@/services/public/home.service';
+import { VideoSectionService } from '@/services/public/videoSection.service';
 import { siteConfig } from '@/config/site';
 
 // Sections
-import { FeaturedSection } from '@/components/public/home/FeaturedSection';
 import { BrandSection } from '@/components/public/home/BrandSection';
-import { RecentCarsSection } from '@/components/public/home/RecentCarsSection';
 import { InventoryDepthSection } from '@/components/public/home/InventoryDepthSection';
 import { BrowseByCategorySection } from '@/components/public/home/BrowseByCategorySection';
 import { WhyChooseUsSection } from '@/components/public/home/WhyChooseUsSection';
@@ -15,6 +14,8 @@ import { BuyingProcessSection } from '@/components/public/home/BuyingProcessSect
 import PrimaryCTASection from '@/components/public/shared/PrimaryCTASection';
 import TestimonialsSection from '@/components/public/home/TestimonialsSection';
 import FAQSection from '@/components/public/home/FAQSection';
+import { HomeShowcaseSection } from '@/components/public/home/HomeShowcaseSection';
+import VideoShowcaseSection from '@/components/public/home/VideoShowcaseSection';
 
 export const metadata: Metadata = {
     title: `${siteConfig.name} — ${siteConfig.tagline} | Quality Used Cars`,
@@ -31,13 +32,15 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
     const homeService = new HomeService();
+    const videoSectionService = new VideoSectionService();
 
     // ── Parallel Data Fetching ───────────────────────────────────────────────
-    const [featuredCars, recentCars, brands, totalActiveCars] = await Promise.all([
+    const [featuredCars, brands, totalActiveCars, homeSections, videoSections] = await Promise.all([
         homeService.getFeaturedCars(),
-        homeService.getRecentCars(),
         homeService.getBrandsWithCounts(),
         homeService.getTotalActiveCarsCount(),
+        homeService.getActiveHomeSections(),
+        videoSectionService.getActiveVideoSections(),
     ]);
 
     // ── Structured Data (JSON-LD) ───────────────────────────────────────────
@@ -106,11 +109,29 @@ export default async function HomePage() {
             <main>
                 <HeroSection />
 
-                {/* Dynamically Fetched DB Sections */}
+                {/* Brand Section */}
                 <BrandSection brands={brands} />
-                <FeaturedSection cars={featuredCars} />
+
+                {/* Dynamic Showcase Sections (admin-managed) */}
+                {homeSections.map((section, idx) => (
+                    <HomeShowcaseSection
+                        key={section._id}
+                        title={section.title}
+                        subtitle={section.subtitle}
+                        layoutType={section.layoutType}
+                        viewAllText={section.viewAllText}
+                        viewAllLink={section.viewAllLink}
+                        cars={section.cars}
+                        priorityImages={idx === 0}
+                    />
+                ))}
+
+                {/* Video Showcase Sections */}
+                {videoSections.map((section) => (
+                    <VideoShowcaseSection key={section._id} section={section as any} />
+                ))}
+
                 <InventoryDepthSection totalCars={totalActiveCars} />
-                <RecentCarsSection cars={recentCars} />
 
                 {/* Internal Linking & Static Funnel/Trust Builders */}
                 <BrowseByCategorySection />

@@ -1,6 +1,20 @@
 import { connectDB } from '@/lib/db';
-import { Car, Brand } from '@/models';
+import { Car, Brand, HomeSection } from '@/models';
+import type { LayoutType } from '@/models';
 import type { ListingCar } from '@/types/listing.types';
+
+// ─── Public home section type ─────────────────────────────────────────────────
+
+export interface PublicHomeSection {
+    _id: string;
+    title: string;
+    subtitle?: string;
+    layoutType: LayoutType;
+    order: number;
+    viewAllText?: string;
+    viewAllLink?: string;
+    cars: ListingCar[];
+}
 
 export class HomeService {
     // ── Projection (listing view — never return full document) ──────────────────
@@ -138,6 +152,43 @@ export class HomeService {
         } catch (error) {
             console.error('[HomeService.getTotalActiveCarsCount] Error:', error);
             return 0;
+        }
+    }
+
+    /**
+     * Fetch active homepage sections with populated car data.
+     * Only returns sections where isActive is true, sorted by order ASC.
+     * Filters out inactive/deleted/sold cars from each section.
+     */
+    async getActiveHomeSections(): Promise<PublicHomeSection[]> {
+        await connectDB();
+        try {
+            const sections = await HomeSection.find({ isActive: true })
+                .populate({
+                    path: 'cars',
+                    match: { isActive: true, isDeleted: false, isSold: false },
+                    select: this.getListProjection(),
+                    populate: { path: 'brand', select: 'name slug logo' },
+                })
+                .sort({ order: 1 })
+                .lean();
+
+            // Cast and return — filter out sections with zero valid cars
+            return sections
+                .map((section) => ({
+                    _id: String(section._id),
+                    title: section.title,
+                    subtitle: section.subtitle,
+                    layoutType: section.layoutType,
+                    order: section.order,
+                    viewAllText: section.viewAllText,
+                    viewAllLink: section.viewAllLink,
+                    cars: (section.cars ?? []) as unknown as ListingCar[],
+                }))
+                .filter((s) => s.cars.length > 0);
+        } catch (error) {
+            console.error('[HomeService.getActiveHomeSections] Error:', error);
+            return [];
         }
     }
 }

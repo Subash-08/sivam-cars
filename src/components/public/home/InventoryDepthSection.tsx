@@ -5,7 +5,7 @@ export function InventoryDepthSection({ totalCars }: { totalCars: number }) {
     if (!totalCars || totalCars === 0) return null;
 
     return (
-        <section className="relative py-16 lg:py-20 overflow-hidden bg-black text-primary-foreground shadow-inner">
+        <section className="relative mt-12 py-16 lg:py-20 overflow-hidden bg-black text-primary-foreground shadow-inner">
             {/* Subtle Animated Background Glows */}
             <div className="absolute top-0 left-0 w-72 h-72 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-pulse pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none" />

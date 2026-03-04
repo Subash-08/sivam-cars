@@ -13,13 +13,13 @@ cloudinary.config({
 // ─── Constants (server-enforced — frontend validation is not security) ────────
 
 const MAX_IMAGE_SIZE = 2 * 1024 * 1024;   // 2 MB
-const MAX_VIDEO_SIZE = 50 * 1024 * 1024;  // 50 MB
+const MAX_VIDEO_SIZE = 25 * 1024 * 1024;  // 25 MB — optimised for car dealership (no 4K needed)
 
 const IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
 const VIDEO_MIME_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
 const ALL_MIME_TYPES = [...IMAGE_MIME_TYPES, ...VIDEO_MIME_TYPES];
 
-const ALLOWED_FOLDERS = ['brands', 'cars'] as const;
+const ALLOWED_FOLDERS = ['brands', 'cars', 'videos'] as const;
 type UploadFolder = (typeof ALLOWED_FOLDERS)[number];
 
 // ─── POST /api/admin/upload ───────────────────────────────────────────────────
