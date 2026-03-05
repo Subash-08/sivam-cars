@@ -18,6 +18,8 @@ interface Brand {
     slug: string;
     logo?: string;
     isActive: boolean;
+    showOnHomepage?: boolean;
+    homepageOrder?: number;
     createdAt: string;
 }
 
@@ -154,6 +156,7 @@ export default function AdminBrandsPage() {
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider w-16">Logo</th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Name</th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden sm:table-cell">Slug</th>
+                                <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Homepage</th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden md:table-cell">Created</th>
                                 <th className="px-5 py-3 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Actions</th>
@@ -175,6 +178,15 @@ export default function AdminBrandsPage() {
                                     </td>
                                     <td className="px-5 py-4 font-medium text-foreground">{brand.name}</td>
                                     <td className="px-5 py-4 text-sm text-muted-foreground hidden sm:table-cell font-mono">{brand.slug}</td>
+                                    <td className="px-5 py-4 text-center">
+                                        {brand.showOnHomepage ? (
+                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                                                Active (Pos: {brand.homepageOrder ?? 0})
+                                            </span>
+                                        ) : (
+                                            <span className="text-muted-foreground text-xs">—</span>
+                                        )}
+                                    </td>
                                     <td className="px-5 py-4">
                                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${brand.isActive
                                             ? 'bg-success/10 text-success border border-success/20'

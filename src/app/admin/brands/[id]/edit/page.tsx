@@ -33,6 +33,8 @@ export default async function EditBrandPage({ params }: Props) {
         description: brand.description ?? '',
         metaTitle: brand.metaTitle ?? '',
         metaDesc: brand.metaDesc ?? '',
+        showOnHomepage: brand.showOnHomepage ?? false,
+        homepageOrder: brand.homepageOrder ?? 0,
     };
 
     return (

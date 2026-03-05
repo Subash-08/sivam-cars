@@ -1,5 +1,5 @@
 import { connectDB } from '@/lib/db';
-import { Car, Brand, HomeSection } from '@/models';
+import { Car, Brand, HomeSection, CustomerStory } from '@/models';
 import type { LayoutType } from '@/models';
 import type { ListingCar } from '@/types/listing.types';
 
@@ -14,6 +14,27 @@ export interface PublicHomeSection {
     viewAllText?: string;
     viewAllLink?: string;
     cars: ListingCar[];
+}
+
+// ─── Public customer story type ───────────────────────────────────────────────
+
+export interface PublicCustomerStory {
+    _id: string;
+    customerName: string;
+    location: string;
+    testimonial: string;
+    imageUrl: string;
+    order: number;
+}
+
+// ─── Homepage brand type ──────────────────────────────────────────────────────
+
+export interface HomepageBrand {
+    _id: string;
+    name: string;
+    slug: string;
+    logo?: string;
+    carCount: number;
 }
 
 export class HomeService {
@@ -96,20 +117,15 @@ export class HomeService {
     async getBrandsWithCounts(limit = 10): Promise<Array<{ _id: string; name: string; slug: string; count: number; logo?: string }>> {
         await connectDB();
         try {
-            // Advanced aggregation pipeline: only active and unsold inventory
             const brandAgg = await Car.aggregate([
                 { $match: { isActive: true, isDeleted: false, isSold: false } },
                 { $group: { _id: '$brand', count: { $sum: 1 } } },
-                { $match: { count: { $gt: 0 } } },
                 { $sort: { count: -1 } },
                 { $limit: limit }
             ]);
 
-            if (brandAgg.length === 0) return [];
-
             const brandIds = brandAgg.map((b) => b._id);
 
-            // Join with Brand collection to get names and slugs
             const brands = await Brand.find({
                 _id: { $in: brandIds },
                 isActive: true,
@@ -118,7 +134,6 @@ export class HomeService {
                 .select('name slug logo')
                 .lean();
 
-            // Map results maintaining the aggregate sort order
             const result = brandAgg.map((agg) => {
                 const doc = brands.find((d) => String(d._id) === String(agg._id));
                 if (!doc) return null;
@@ -157,8 +172,6 @@ export class HomeService {
 
     /**
      * Fetch active homepage sections with populated car data.
-     * Only returns sections where isActive is true, sorted by order ASC.
-     * Filters out inactive/deleted/sold cars from each section.
      */
     async getActiveHomeSections(): Promise<PublicHomeSection[]> {
         await connectDB();
@@ -173,7 +186,6 @@ export class HomeService {
                 .sort({ order: 1 })
                 .lean();
 
-            // Cast and return — filter out sections with zero valid cars
             return sections
                 .map((section) => ({
                     _id: String(section._id),
@@ -188,6 +200,74 @@ export class HomeService {
                 .filter((s) => s.cars.length > 0);
         } catch (error) {
             console.error('[HomeService.getActiveHomeSections] Error:', error);
+            return [];
+        }
+    }
+
+    /**
+     * Fetch active customer delivery stories, sorted by order ASC.
+     */
+    async getActiveCustomerStories(): Promise<PublicCustomerStory[]> {
+        await connectDB();
+        try {
+            const stories = await CustomerStory.find({ isActive: true })
+                .select('customerName location testimonial imageUrl order')
+                .sort({ order: 1 })
+                .lean();
+
+            return stories.map((s) => ({
+                _id: String(s._id),
+                customerName: s.customerName,
+                location: s.location,
+                testimonial: s.testimonial,
+                imageUrl: s.imageUrl,
+                order: s.order,
+            }));
+        } catch (error) {
+            console.error('[HomeService.getActiveCustomerStories] Error:', error);
+            return [];
+        }
+    }
+
+    /**
+     * Fetch admin-curated brands for homepage display.
+     * Returns brands with showOnHomepage=true, sorted by homepageOrder.
+     * Includes car count per brand (only active, non-deleted, non-sold cars).
+     * Limited to 12 brands max.
+     */
+    async getHomepageBrands(): Promise<HomepageBrand[]> {
+        await connectDB();
+        try {
+            const brands = await Brand.find({
+                showOnHomepage: true,
+                isActive: true,
+                isDeleted: false,
+            })
+                .select('name slug logo homepageOrder')
+                .sort({ homepageOrder: 1 })
+                .limit(12)
+                .lean();
+
+            if (brands.length === 0) return [];
+
+            // Aggregate car counts per brand
+            const brandIds = brands.map((b) => b._id);
+            const carCounts = await Car.aggregate([
+                { $match: { brand: { $in: brandIds }, isActive: true, isDeleted: false, isSold: false } },
+                { $group: { _id: '$brand', count: { $sum: 1 } } },
+            ]);
+
+            const countMap = new Map(carCounts.map((c) => [String(c._id), c.count as number]));
+
+            return brands.map((b) => ({
+                _id: String(b._id),
+                name: b.name,
+                slug: b.slug,
+                logo: b.logo,
+                carCount: countMap.get(String(b._id)) ?? 0,
+            }));
+        } catch (error) {
+            console.error('[HomeService.getHomepageBrands] Error:', error);
             return [];
         }
     }

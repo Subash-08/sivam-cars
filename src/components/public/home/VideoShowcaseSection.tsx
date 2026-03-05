@@ -4,16 +4,19 @@ import { VideoPlayer } from './VideoPlayer';
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 // Uses custom thumbnail if available, otherwise undefined (native video render)
+// In a Server Component, we have access to ALL env vars, preventing Vercel `NEXT_PUBLIC_` stripping issues.
 const getPosterUrl = (thumbnailPublicId?: string, isReels = false) => {
     if (!thumbnailPublicId) return undefined;
-    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME;
     const height = isReels ? 1920 : 1080;
     const width = isReels ? 1080 : 1920;
     return `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,h_${height},w_${width}/${thumbnailPublicId}`;
 };
 
-const getVideoSrc = (publicId: string) =>
-    `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/video/upload/${publicId}`;
+const getVideoSrc = (publicId: string) => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME;
+    return `https://res.cloudinary.com/${cloudName}/video/upload/${publicId}`;
+};
 
 // ─── Component ────────────────────────────────────────────────────────────────
 

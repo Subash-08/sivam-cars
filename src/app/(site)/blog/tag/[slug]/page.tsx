@@ -17,12 +17,13 @@ import { siteConfig } from '@/config/site';
 export const revalidate = 60;
 
 interface PageProps {
-    params: { slug: string };
-    searchParams: { page?: string };
+    params: Promise<{ slug: string }>;
+    searchParams: Promise<{ page?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const tagName = params.slug.replace(/-/g, ' ');
+    const p = await params;
+    const tagName = p.slug.replace(/-/g, ' ');
 
     return {
         title: `Posts tagged as ${tagName} | ${siteConfig.name}`,
@@ -35,8 +36,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function BlogTagPage({ params, searchParams }: PageProps) {
-    const page = parseInt(searchParams.page || '1', 10);
-    const tagName = params.slug.replace(/-/g, ' ');
+    const sParams = await searchParams;
+    const p = await params;
+    const page = parseInt(sParams.page || '1', 10);
+    const tagName = p.slug.replace(/-/g, ' ');
 
     const { blogs, totalPages, total } = await BlogService.getPublicBlogs(page, 9, { tag: tagName });
 
@@ -69,14 +72,14 @@ export default async function BlogTagPage({ params, searchParams }: PageProps) {
 
                 {totalPages > 1 && (
                     <div className="mt-16 flex items-center justify-center gap-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p_num) => (
                             <Link
-                                key={p}
-                                href={`/blog/tag/${params.slug}?page=${p}`}
-                                className={`w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-all ${page === p ? 'bg-primary text-white pointer-events-none' : 'bg-card text-foreground border border-border hover:bg-muted'
+                                key={p_num}
+                                href={`/blog/tag/${p.slug}?page=${p_num}`}
+                                className={`w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-all ${page === p_num ? 'bg-primary text-white pointer-events-none' : 'bg-card text-foreground border border-border hover:bg-muted'
                                     }`}
                             >
-                                {p}
+                                {p_num}
                             </Link>
                         ))}
                     </div>

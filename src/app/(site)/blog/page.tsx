@@ -33,9 +33,10 @@ export const metadata: Metadata = {
 export default async function BlogListingPage({
     searchParams,
 }: {
-    searchParams: { page?: string };
+    searchParams: Promise<{ page?: string }>;
 }) {
-    const page = parseInt(searchParams.page || '1', 10);
+    const sParams = await searchParams;
+    const page = parseInt(sParams.page || '1', 10);
     const { blogs, totalPages, total } = await BlogService.getPublicBlogs(page, 9);
 
     // Schema Markup

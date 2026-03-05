@@ -17,7 +17,7 @@ import type { CreateBrandInput } from '@/validations/admin/brand.schema';
 
 interface BrandFormProps {
     /** Pass existing brand data when editing */
-    initialData?: Partial<CreateBrandInput> & { _id?: string };
+    initialData?: Partial<CreateBrandInput> & { _id?: string; showOnHomepage?: boolean; homepageOrder?: number };
     isEditing?: boolean;
 }
 
@@ -26,6 +26,8 @@ interface BrandFormProps {
 export function BrandForm({ initialData, isEditing = false }: BrandFormProps) {
     const router = useRouter();
     const [uploading, setUploading] = useState(false);
+    const [showOnHomepage, setShowOnHomepage] = useState(initialData?.showOnHomepage ?? false);
+    const [homepageOrder, setHomepageOrder] = useState(initialData?.homepageOrder ?? 0);
 
     const {
         register,
@@ -96,7 +98,7 @@ export function BrandForm({ initialData, isEditing = false }: BrandFormProps) {
             const res = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
+                body: JSON.stringify({ ...data, showOnHomepage, homepageOrder }),
             });
             const result = await res.json() as { success: boolean; error?: string };
 
@@ -226,6 +228,52 @@ export function BrandForm({ initialData, isEditing = false }: BrandFormProps) {
                         />
                         <p className="mt-1 text-xs text-muted-foreground">Recommended: 150–160 characters</p>
                     </div>
+                </div>
+            </div>
+
+            {/* Homepage Visibility */}
+            <div className="border-t border-border pt-6">
+                <h3 className="text-sm font-semibold text-foreground uppercase tracking-widest mb-4">
+                    Homepage Display
+                </h3>
+                <p className="text-xs text-muted-foreground mb-4">
+                    Select brands to feature on the homepage. Maximum 12 brands are displayed.
+                </p>
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={() => setShowOnHomepage(!showOnHomepage)}
+                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showOnHomepage ? 'bg-primary' : 'bg-muted'
+                                }`}
+                            role="switch"
+                            aria-checked={showOnHomepage}
+                        >
+                            <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${showOnHomepage ? 'translate-x-6' : 'translate-x-1'
+                                    }`}
+                            />
+                        </button>
+                        <label className="text-sm font-medium text-foreground cursor-pointer" onClick={() => setShowOnHomepage(!showOnHomepage)}>
+                            Show on Homepage
+                        </label>
+                    </div>
+                    {showOnHomepage && (
+                        <div className="max-w-[200px]">
+                            <label htmlFor="homepage-order" className="block text-sm font-medium text-foreground mb-1">
+                                Display Order
+                            </label>
+                            <Input
+                                id="homepage-order"
+                                type="number"
+                                min={0}
+                                max={100}
+                                value={homepageOrder}
+                                onChange={(e) => setHomepageOrder(parseInt(e.target.value) || 0)}
+                            />
+                            <p className="mt-1 text-xs text-muted-foreground">Lower numbers appear first</p>
+                        </div>
+                    )}
                 </div>
             </div>
 

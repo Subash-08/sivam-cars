@@ -30,7 +30,7 @@ export function HomeShowcaseSection({
     if (!cars || cars.length === 0) return null;
 
     return (
-        <section className="py-6 bg-background">
+        <section className="py-12 bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* ── Header Row ──────────────────────────────────────────── */}
                 <div className="flex justify-between items-end mb-8">

@@ -9,6 +9,8 @@ export const createBrandSchema = z.object({
     description: z.string().max(1000).optional(),
     metaTitle: z.string().max(60).optional(),
     metaDesc: z.string().max(160).optional(),
+    showOnHomepage: z.boolean().optional(),
+    homepageOrder: z.number().int().min(0).max(100).optional(),
 });
 
 export const updateBrandSchema = createBrandSchema.partial();

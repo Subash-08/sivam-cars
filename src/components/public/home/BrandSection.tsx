@@ -48,7 +48,7 @@ export function BrandSection({ brands }: { brands: BrandStat[] }) {
                                 )}
                             </div>
                             <h3 className="font-semibold text-foreground">{brand.name}</h3>
-                            <p className="text-xs text-muted-foreground mt-1">{brand.count} Cars</p>
+
                         </Link>
                     ))}
                 </div>

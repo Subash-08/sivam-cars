@@ -19,12 +19,13 @@ import BlogCard from '@/components/public/blog/BlogCard';
 export const revalidate = 300; // [DECISION-012]
 
 interface PageProps {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }
 
 // Dynamic metadata generation for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const blog = await BlogService.getBlogBySlug(params.slug);
+    const p = await params;
+    const blog = await BlogService.getBlogBySlug(p.slug);
 
     if (!blog) return { title: 'Blog Not Found' };
 
@@ -59,7 +60,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function BlogDetailPage({ params }: PageProps) {
-    const blog = await BlogService.getBlogBySlug(params.slug);
+    const p = await params;
+    const blog = await BlogService.getBlogBySlug(p.slug);
 
     if (!blog) {
         notFound();
@@ -69,7 +71,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
 
     // Fetch relationships in parallel 
     const [relatedBlogs, popularBlogs] = await Promise.all([
-        BlogService.getRelatedBlogs(category, params.slug, 3),
+        BlogService.getRelatedBlogs(category, p.slug, 3),
         BlogService.getPopularBlogs(3)
     ]);
 
@@ -99,7 +101,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                 dateModified: new Date(blog.updatedAt || createdAt || new Date()).toISOString(),
                 author: { '@type': 'Organization', name: siteConfig.name, url: siteConfig.url },
                 publisher: { '@type': 'Organization', name: siteConfig.name, logo: { '@type': 'ImageObject', url: `${siteConfig.url}/logo.png` } },
-                mainEntityOfPage: { '@type': 'WebPage', '@id': blog.canonical_url || `${siteConfig.url}/blog/${params.slug}` },
+                mainEntityOfPage: { '@type': 'WebPage', '@id': blog.canonical_url || `${siteConfig.url}/blog/${p.slug}` },
             },
             {
                 '@type': 'BreadcrumbList',
@@ -107,7 +109,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                     { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
                     { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteConfig.url}/blog` },
                     ...(category ? [{ '@type': 'ListItem', position: 3, name: category, item: `${siteConfig.url}${currentCategoryUrl}` }] : []),
-                    { '@type': 'ListItem', position: category ? 4 : 3, name: title, item: `${siteConfig.url}/blog/${params.slug}` }
+                    { '@type': 'ListItem', position: category ? 4 : 3, name: title, item: `${siteConfig.url}/blog/${p.slug}` }
                 ]
             }
         ]
@@ -118,7 +120,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
             {/* Silent Tracker */}
-            <ViewTracker slug={params.slug} />
+            <ViewTracker slug={p.slug} />
 
             {/* Container */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">

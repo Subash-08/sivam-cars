@@ -7,6 +7,8 @@ export interface IBrand extends Document {
     description?: string;
     metaTitle?: string;
     metaDesc?: string;
+    showOnHomepage: boolean;
+    homepageOrder: number;
     isActive: boolean;
     isDeleted: boolean;
     deletedAt?: Date;
@@ -35,6 +37,8 @@ const BrandSchema = new Schema<IBrand>(
         description: { type: String },
         metaTitle: { type: String },
         metaDesc: { type: String },
+        showOnHomepage: { type: Boolean, default: false },
+        homepageOrder: { type: Number, default: 0, min: 0 },
         isActive: { type: Boolean, default: true },
         isDeleted: { type: Boolean, default: false },
         deletedAt: { type: Date },
@@ -45,6 +49,7 @@ const BrandSchema = new Schema<IBrand>(
 // ─── Indexes ─────────────────────────────────────────────────────────────────
 // Compound: active brand lookup by slug (used in resolveBrands)
 BrandSchema.index({ isActive: 1, isDeleted: 1, slug: 1 });
+BrandSchema.index({ showOnHomepage: 1, homepageOrder: 1 });
 
 // ─── Named export (used by models/index.ts barrel) ────────────────────────────
 export const Brand: Model<IBrand> =

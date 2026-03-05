@@ -16,12 +16,13 @@ import { siteConfig } from '@/config/site';
 export const revalidate = 60;
 
 interface PageProps {
-    params: { slug: string };
-    searchParams: { page?: string };
+    params: Promise<{ slug: string }>;
+    searchParams: Promise<{ page?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const rawCategory = params.slug.replace(/-/g, ' ');
+    const p = await params;
+    const rawCategory = p.slug.replace(/-/g, ' ');
     // Capitalize first letters
     const categoryName = rawCategory.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
@@ -31,16 +32,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title,
         description,
-        alternates: { canonical: `${siteConfig.url}/blog/category/${params.slug}` },
-        openGraph: { title, description, url: `${siteConfig.url}/blog/category/${params.slug}` }
+        alternates: { canonical: `${siteConfig.url}/blog/category/${p.slug}` },
+        openGraph: { title, description, url: `${siteConfig.url}/blog/category/${p.slug}` }
     };
 }
 
 export default async function BlogCategoryPage({ params, searchParams }: PageProps) {
-    const page = parseInt(searchParams.page || '1', 10);
+    const sParams = await searchParams;
+    const p = await params;
+    const page = parseInt(sParams.page || '1', 10);
 
     // Reverse engineer slug to match internal String representation natively
-    const rawCategory = params.slug.replace(/-/g, ' ');
+    const rawCategory = p.slug.replace(/-/g, ' ');
     // Mongoose regex matches ignoring case, but we need to provide a usable string to query builder
     const categoryPattern = new RegExp(`^${rawCategory}$`, 'i');
 
@@ -51,7 +54,7 @@ export default async function BlogCategoryPage({ params, searchParams }: PagePro
         notFound();
     }
 
-    const friendlyName = params.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    const friendlyName = p.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
     return (
         <div className="min-h-screen pb-20">
@@ -79,14 +82,14 @@ export default async function BlogCategoryPage({ params, searchParams }: PagePro
 
                 {totalPages > 1 && (
                     <div className="mt-16 flex items-center justify-center gap-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p_num) => (
                             <Link
-                                key={p}
-                                href={`/blog/category/${params.slug}?page=${p}`}
-                                className={`w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-all ${page === p ? 'bg-primary text-white pointer-events-none' : 'bg-card text-foreground border border-border hover:bg-muted'
+                                key={p_num}
+                                href={`/blog/category/${p.slug}?page=${p_num}`}
+                                className={`w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-all ${page === p_num ? 'bg-primary text-white pointer-events-none' : 'bg-card text-foreground border border-border hover:bg-muted'
                                     }`}
                             >
-                                {p}
+                                {p_num}
                             </Link>
                         ))}
                     </div>

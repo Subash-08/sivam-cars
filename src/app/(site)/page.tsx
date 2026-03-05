@@ -6,7 +6,7 @@ import { VideoSectionService } from '@/services/public/videoSection.service';
 import { siteConfig } from '@/config/site';
 
 // Sections
-import { BrandSection } from '@/components/public/home/BrandSection';
+import PopularBrandsSection from '@/components/public/home/PopularBrandsSection';
 import { InventoryDepthSection } from '@/components/public/home/InventoryDepthSection';
 import { BrowseByCategorySection } from '@/components/public/home/BrowseByCategorySection';
 import { WhyChooseUsSection } from '@/components/public/home/WhyChooseUsSection';
@@ -16,6 +16,7 @@ import TestimonialsSection from '@/components/public/home/TestimonialsSection';
 import FAQSection from '@/components/public/home/FAQSection';
 import { HomeShowcaseSection } from '@/components/public/home/HomeShowcaseSection';
 import VideoShowcaseSection from '@/components/public/home/VideoShowcaseSection';
+import CustomerStoriesSection from '@/components/public/home/CustomerStoriesSection';
 
 export const metadata: Metadata = {
     title: `${siteConfig.name} — ${siteConfig.tagline} | Quality Used Cars`,
@@ -35,12 +36,13 @@ export default async function HomePage() {
     const videoSectionService = new VideoSectionService();
 
     // ── Parallel Data Fetching ───────────────────────────────────────────────
-    const [featuredCars, brands, totalActiveCars, homeSections, videoSections] = await Promise.all([
+    const [featuredCars, totalActiveCars, homeSections, videoSections, customerStories, homepageBrands] = await Promise.all([
         homeService.getFeaturedCars(),
-        homeService.getBrandsWithCounts(),
         homeService.getTotalActiveCarsCount(),
         homeService.getActiveHomeSections(),
         videoSectionService.getActiveVideoSections(),
+        homeService.getActiveCustomerStories(),
+        homeService.getHomepageBrands(),
     ]);
 
     // ── Structured Data (JSON-LD) ───────────────────────────────────────────
@@ -109,8 +111,6 @@ export default async function HomePage() {
             <main>
                 <HeroSection />
 
-                {/* Brand Section */}
-                <BrandSection brands={brands} />
 
                 {/* Dynamic Showcase Sections (admin-managed) */}
                 {homeSections.map((section, idx) => (
@@ -126,10 +126,9 @@ export default async function HomePage() {
                     />
                 ))}
 
-                {/* Video Showcase Sections */}
-                {videoSections.map((section) => (
-                    <VideoShowcaseSection key={section._id} section={section as any} />
-                ))}
+
+                {/* Popular Brands Section */}
+                <PopularBrandsSection brands={homepageBrands} />
 
                 <InventoryDepthSection totalCars={totalActiveCars} />
 
@@ -137,8 +136,12 @@ export default async function HomePage() {
                 <BrowseByCategorySection />
                 <WhyChooseUsSection />
                 <BuyingProcessSection />
+                <CustomerStoriesSection stories={customerStories} />
 
-                <PrimaryCTASection />
+                <PrimaryCTASection />  {/* Video Showcase Sections */}
+                {videoSections.map((section) => (
+                    <VideoShowcaseSection key={section._id} section={section as any} />
+                ))}
                 <TestimonialsSection />
                 <FAQSection />
 
