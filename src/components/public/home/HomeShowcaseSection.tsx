@@ -64,7 +64,8 @@ export function HomeShowcaseSection({
 
                 {layoutType === 'carousel' && (
                     <div className="relative group/carousel">
-                        <div className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 scrollbar-hide">
+                        {/* Hiding scrollbar natively across all browsers */}
+                        <div className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                             {cars.map((car, idx) => (
                                 <div
                                     key={car._id}
@@ -80,11 +81,12 @@ export function HomeShowcaseSection({
                 )}
 
                 {layoutType === 'horizontal-scroll' && (
-                    <div className="flex gap-6 overflow-x-auto pb-4">
+                    /* Hiding scrollbar natively across all browsers */
+                    <div className="flex gap-6 overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                         {cars.map((car, idx) => (
                             <div
                                 key={car._id}
-                                className="shrink-0 w-[300px] sm:w-[340px] lg:w-[370px]"
+                                className="shrink-0 w-[300px] sm:w-[340px] lg:w-[370px] "
                             >
                                 <CarCard car={car} priority={priorityImages && idx < 3} />
                             </div>

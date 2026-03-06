@@ -1,7 +1,7 @@
 import { formatINR, formatKms } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
 import type { CarDetail } from '@/services/public/car-detail.service';
-import { Shield, CheckCircle, MapPin, FileText, Calendar, Gauge, Fuel, Settings, Users, Car, Eye } from 'lucide-react';
+import { Shield, CheckCircle, MapPin, FileText, Calendar, Gauge, Fuel, Settings, Users, Car } from 'lucide-react';
 import { LeadForm } from '@/components/public/detail/LeadForm';
 
 interface StickySidebarProps {
@@ -123,33 +123,34 @@ export function StickySidebar({ car }: StickySidebarProps) {
                             </span>
                         </div>
                     )}
+                    {car.registration && (
+                        <div className="flex items-center justify-between text-sm">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                                <FileText className="w-4 h-4 shrink-0" />
+                                <span>Registration</span>
+                            </div>
+                            <span className="font-semibold text-foreground uppercase">
+                                {car.registration}
+                            </span>
+                        </div>
+                    )}
+                    {car.insuranceDetails && (
+                        <div className="flex items-center justify-between text-sm">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                                <Shield className="w-4 h-4 shrink-0" />
+                                <span>Insurance</span>
+                            </div>
+                            <span className="font-medium text-foreground text-right max-w-[140px] truncate">
+                                {car.insuranceDetails}
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
 
             {/* 6. DETAILS BLOCK */}
-            <div className="bg-card rounded-xl border border-border p-5 space-y-3.5">
-                {car.registration && (
-                    <div className="flex items-center justify-between text-sm">
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                            <FileText className="w-4 h-4 shrink-0" />
-                            <span>Registration</span>
-                        </div>
-                        <span className="font-semibold text-foreground uppercase">
-                            {car.registration}
-                        </span>
-                    </div>
-                )}
-                {car.insuranceDetails && (
-                    <div className="flex items-center justify-between text-sm">
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                            <Shield className="w-4 h-4 shrink-0" />
-                            <span>Insurance</span>
-                        </div>
-                        <span className="font-medium text-foreground text-right max-w-[140px] truncate">
-                            {car.insuranceDetails}
-                        </span>
-                    </div>
-                )}
+            {/* <div className="bg-card rounded-xl border border-border p-5 space-y-3.5">
+
                 <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2 text-muted-foreground">
                         <Eye className="w-4 h-4 shrink-0" />
@@ -159,7 +160,7 @@ export function StickySidebar({ car }: StickySidebarProps) {
                         {car.viewsCount.toLocaleString('en-IN')}
                     </span>
                 </div>
-            </div>
+            </div> */}
 
             {/* 5. LEAD FORM BLOCK */}
             {!car.isSold && (

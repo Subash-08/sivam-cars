@@ -19,7 +19,7 @@ const IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xm
 const VIDEO_MIME_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
 const ALL_MIME_TYPES = [...IMAGE_MIME_TYPES, ...VIDEO_MIME_TYPES];
 
-const ALLOWED_FOLDERS = ['brands', 'cars', 'videos', 'customer-stories'] as const;
+const ALLOWED_FOLDERS = ['brands', 'cars', 'videos', 'customer-stories', 'hero'] as const;
 type UploadFolder = (typeof ALLOWED_FOLDERS)[number];
 
 // ─── POST /api/admin/upload ───────────────────────────────────────────────────
@@ -69,10 +69,14 @@ export async function POST(request: NextRequest) {
         }
 
         // ── Server-enforced size validation (different limits per type) ───────────
-        const maxSize = isVideo ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
+        let maxSize = isVideo ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
+        if (folder === 'hero' && isImage) {
+            maxSize = 512 * 1024; // 500KB limit for hero images
+        }
+
         if (file.size > maxSize) {
             return NextResponse.json(
-                { success: false, error: `File too large. Max size is ${maxSize / 1024 / 1024} MB for ${isVideo ? 'videos' : 'images'}` },
+                { success: false, error: `File too large. Max size is ${maxSize / 1024 / 1024} MB for ${isVideo ? 'videos' : (folder === 'hero' ? 'hero images' : 'images')}` },
                 { status: 400 },
             );
         }
@@ -93,7 +97,10 @@ export async function POST(request: NextRequest) {
                         ...(isImage
                             ? {
                                 allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'svg'],
-                                transformation: [{ quality: 'auto', fetch_format: 'auto' }],
+                                transformation: [
+                                    { quality: 'auto', fetch_format: folder === 'hero' ? 'webp' : 'auto' },
+                                    ...(folder === 'hero' ? [{ width: 1920, height: 1080, crop: 'limit' }] : [])
+                                ],
                             }
                             : {
                                 allowed_formats: ['mp4', 'webm', 'mov'],

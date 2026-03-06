@@ -49,7 +49,7 @@ export function InventoryDepthSection({ totalCars }: { totalCars: number }) {
                         href="/used-cars?page=1"
                         className="group w-full sm:w-auto bg-background text-foreground font-bold px-8 py-4 sm:px-10 sm:py-5 rounded-xl shadow-2xl hover:shadow-xl hover:bg-background/90 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3 shrink-0"
                     >
-                        <span>Browse Inventory</span>
+                        <span>Explore Used Cars</span>
                         {/* Arrow animates slightly to the right on hover */}
                         <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1.5 transition-transform duration-300 text-primary" />
                     </Link>
