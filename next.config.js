@@ -21,7 +21,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ['mongoose'],
+    serverComponentsExternalPackages: ['mongoose', 'isomorphic-dompurify'],
   },
   async redirects() {
     return [
