@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError } from '@/lib/adminGuard';
 import { BrandAdminService } from '@/services/admin/brandAdmin.service';
 import { updateBrandSchema } from '@/validations/admin/brand.schema';
@@ -25,6 +26,8 @@ export async function PUT(
         }
 
         const brand = await brandService.updateBrand(params.id, validation.data);
+        revalidatePath('/');
+        revalidatePath('/cars');
         return NextResponse.json({ success: true, brand });
 
     } catch (error: unknown) {
@@ -48,6 +51,8 @@ export async function DELETE(
         await requireAdmin();
 
         const brand = await brandService.softDeleteBrand(params.id);
+        revalidatePath('/');
+        revalidatePath('/cars');
         return NextResponse.json({ success: true, message: 'Brand deleted', brand });
 
     } catch (error: unknown) {

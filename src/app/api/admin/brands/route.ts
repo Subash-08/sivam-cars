@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError } from '@/lib/adminGuard';
 import { BrandAdminService } from '@/services/admin/brandAdmin.service';
 import { createBrandSchema } from '@/validations/admin/brand.schema';
@@ -44,6 +45,8 @@ export async function POST(request: NextRequest) {
         }
 
         const brand = await brandService.createBrand(validation.data);
+        revalidatePath('/');
+        revalidatePath('/cars');
         return NextResponse.json({ success: true, brand }, { status: 201 });
 
     } catch (error: unknown) {

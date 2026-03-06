@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError, AuthError } from '@/lib/adminGuard';
 import { HeroSettingAdminService } from '@/services/admin/heroSettingAdmin.service';
 import { updateHeroSettingSchema } from '@/validations/admin/heroSetting.schema';
@@ -44,6 +45,7 @@ export async function PATCH(request: NextRequest) {
         }
 
         const updatedSettings = await heroSettingService.updateSettings(validation.data);
+        revalidatePath('/');
         return NextResponse.json({ success: true, settings: updatedSettings });
 
     } catch (error: unknown) {
