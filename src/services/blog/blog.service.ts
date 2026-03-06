@@ -8,7 +8,6 @@
 import { connectDB } from '@/lib/db';
 import Blog from '@/models/Blog.model';
 import { IBlog, BlogStatus, BlogFilterOptions } from '@/types/blog.types';
-import { sanitizeHtml } from '@/lib/purify';
 import { FilterQuery } from 'mongoose';
 
 export class BlogService {
@@ -200,6 +199,7 @@ export class BlogService {
 
         // Server-side HTML sanitization (CRITICAL for security)
         if (data.html) {
+            const { sanitizeHtml } = await import('@/lib/purify');
             data.html = sanitizeHtml(data.html);
         }
 
@@ -221,6 +221,7 @@ export class BlogService {
         await connectDB();
 
         if (updateData.html) {
+            const { sanitizeHtml } = await import('@/lib/purify');
             updateData.html = sanitizeHtml(updateData.html);
         }
 
