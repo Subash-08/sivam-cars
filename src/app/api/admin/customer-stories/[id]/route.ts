@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError, AuthError } from '@/lib/adminGuard';
 import { CustomerStoryAdminService } from '@/services/admin/customerStoryAdmin.service';
 import { updateCustomerStorySchema } from '@/validations/admin/customerStory.schema';
@@ -49,6 +50,7 @@ export async function PUT(
         }
 
         const story = await storyService.update(params.id, validation.data);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, story });
 
     } catch (error: unknown) {
@@ -74,6 +76,7 @@ export async function DELETE(
     try {
         await requireAdmin();
         await storyService.delete(params.id);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, message: 'Story deleted' });
     } catch (error: unknown) {
         if (isAuthError(error)) {

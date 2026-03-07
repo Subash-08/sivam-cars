@@ -1,6 +1,6 @@
 // ─── Enum Types ──────────────────────────────────────────────────────────────
 
-export type FuelType = 'Petrol' | 'Diesel' | 'Petrol + CNG' | 'Electric' | 'Hybrid';
+export type FuelType = 'Petrol' | 'Diesel' | 'CNG' | 'Petrol + CNG' | 'Electric' | 'Hybrid';
 export type Transmission = 'Manual' | 'Automatic' | 'CVT' | 'AMT';
 export type BodyType =
     | 'SUV'
@@ -68,6 +68,7 @@ export interface CarListResponse {
 export const FUEL_TYPES: FuelType[] = [
     'Petrol',
     'Diesel',
+    'CNG',
     'Petrol + CNG',
     'Electric',
     'Hybrid',

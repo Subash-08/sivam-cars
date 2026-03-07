@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError, AuthError } from '@/lib/adminGuard';
 import { VideoSectionAdminService } from '@/services/admin/videoSectionAdmin.service';
 import { updateVideoSectionSchema } from '@/validations/admin/videoSection.schema';
@@ -49,6 +50,7 @@ export async function PUT(
         }
 
         const section = await sectionService.update(params.id, validation.data);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, section });
 
     } catch (error: unknown) {
@@ -74,6 +76,7 @@ export async function DELETE(
     try {
         await requireAdmin();
         await sectionService.delete(params.id);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, message: 'Section deleted' });
     } catch (error: unknown) {
         if (isAuthError(error)) {

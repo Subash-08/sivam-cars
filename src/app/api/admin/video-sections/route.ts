@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError, AuthError } from '@/lib/adminGuard';
 import { VideoSectionAdminService } from '@/services/admin/videoSectionAdmin.service';
 import { createVideoSectionSchema, reorderVideoSectionsSchema } from '@/validations/admin/videoSection.schema';
@@ -41,6 +42,7 @@ export async function POST(request: NextRequest) {
         }
 
         const section = await sectionService.create(validation.data);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, section }, { status: 201 });
 
     } catch (error: unknown) {
@@ -73,6 +75,7 @@ export async function PATCH(request: NextRequest) {
         }
 
         const sections = await sectionService.reorder(validation.data.orderedIds);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, sections });
 
     } catch (error: unknown) {

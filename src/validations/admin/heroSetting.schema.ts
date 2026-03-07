@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 export const updateHeroSettingSchema = z.object({
-    badgeText: z.string().min(1, 'Badge text is required').max(100),
-    headingPrimary: z.string().min(1, 'Primary heading is required').max(100),
-    headingSecondary: z.string().min(1, 'Secondary heading is required').max(100),
-    description: z.string().min(1, 'Description is required').max(300),
+    badgeText: z.string().max(100).optional().or(z.literal('')),
+    headingPrimary: z.string().max(100).optional().or(z.literal('')),
+    headingSecondary: z.string().max(100).optional().or(z.literal('')),
+    description: z.string().max(300).optional().or(z.literal('')),
     trustIndicators: z
         .array(z.string().min(1, 'Indicator cannot be empty').max(50, 'Must be 50 characters or less'))
         .max(10, 'Maximum of 10 trust indicators allowed'),

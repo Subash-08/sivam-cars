@@ -23,7 +23,7 @@ interface FormData {
     phone: string;
 }
 
-const FUEL_OPTIONS = ['Petrol', 'Diesel', 'Petrol + CNG', 'Electric'] as const;
+const FUEL_OPTIONS = ['Petrol', 'Diesel', 'CNG', 'Petrol + CNG', 'Electric'] as const;
 
 const CITIES = ['Salem', 'Chennai', 'Coimbatore', 'Bangalore', 'Madurai', 'Trichy'] as const;
 
@@ -264,8 +264,8 @@ export default function SellCarForm({ brands }: SellCarFormProps): React.JSX.Ele
                                         key={fuel}
                                         onClick={() => handleFuelSelect(fuel)}
                                         className={`rounded-full border px-4 py-2 text-xs font-bold transition-all ${formData.fuelType === fuel
-                                                ? 'border-red-600 bg-red-600 text-white shadow-lg shadow-red-600/20'
-                                                : 'border-border bg-muted text-muted-foreground hover:border-muted-foreground'
+                                            ? 'border-red-600 bg-red-600 text-white shadow-lg shadow-red-600/20'
+                                            : 'border-border bg-muted text-muted-foreground hover:border-muted-foreground'
                                             }`}
                                         aria-pressed={formData.fuelType === fuel}
                                     >

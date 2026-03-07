@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError, AuthError } from '@/lib/adminGuard';
 import { CustomerStoryAdminService } from '@/services/admin/customerStoryAdmin.service';
 import { createCustomerStorySchema, reorderCustomerStoriesSchema } from '@/validations/admin/customerStory.schema';
@@ -44,6 +45,7 @@ export async function POST(request: NextRequest) {
         }
 
         const story = await storyService.create(validation.data);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, story }, { status: 201 });
 
     } catch (error: unknown) {
@@ -76,6 +78,7 @@ export async function PATCH(request: NextRequest) {
         }
 
         const stories = await storyService.reorder(validation.data.orderedIds);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, stories });
 
     } catch (error: unknown) {

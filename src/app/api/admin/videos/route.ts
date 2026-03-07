@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, isAuthError, AuthError } from '@/lib/adminGuard';
 import { VideoAdminService } from '@/services/admin/videoAdmin.service';
 import { createVideoSchema } from '@/validations/admin/video.schema';
@@ -48,6 +49,7 @@ export async function POST(request: NextRequest) {
         }
 
         const video = await videoService.create(validation.data);
+        revalidatePath('/', 'layout');
         return NextResponse.json({ success: true, video }, { status: 201 });
 
     } catch (error: unknown) {

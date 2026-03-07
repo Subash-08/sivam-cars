@@ -211,7 +211,6 @@ export default function HeroSettingsPage() {
                             name="badgeText"
                             value={settings.badgeText}
                             onChange={handleChange}
-                            required
                             className="w-full bg-background border border-border rounded px-3 py-2 text-sm focus:outline-none focus:border-primary transition-colors"
                             placeholder="e.g. Verified Used Cars Marketplace"
                         />
@@ -225,7 +224,6 @@ export default function HeroSettingsPage() {
                                 name="headingPrimary"
                                 value={settings.headingPrimary}
                                 onChange={handleChange}
-                                required
                                 className="w-full bg-background border border-border rounded px-3 py-2 text-sm focus:outline-none focus:border-primary transition-colors"
                                 placeholder="e.g. Discover Quality"
                             />
@@ -238,7 +236,6 @@ export default function HeroSettingsPage() {
                                 name="headingSecondary"
                                 value={settings.headingSecondary}
                                 onChange={handleChange}
-                                required
                                 className="w-full bg-background border border-border rounded px-3 py-2 text-sm focus:outline-none focus:border-primary transition-colors"
                                 placeholder="e.g. Used Cars at the Best Price"
                             />
@@ -251,7 +248,6 @@ export default function HeroSettingsPage() {
                             name="description"
                             value={settings.description}
                             onChange={handleChange}
-                            required
                             rows={3}
                             className="w-full bg-background border border-border rounded px-3 py-2 text-sm focus:outline-none focus:border-primary transition-colors resize-y"
                             placeholder="Brief description below the headings..."

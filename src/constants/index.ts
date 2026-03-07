@@ -24,7 +24,7 @@ export const PUBLIC_NAV_ITEMS: NavItem[] = [
     { label: 'Contact', href: '/contact' },
 ];
 
-export const FUEL_TYPES = ['Petrol', 'Diesel', 'Petrol + CNG', 'Electric', 'Hybrid'] as const;
+export const FUEL_TYPES = ['Petrol', 'Diesel', 'CNG', 'Petrol + CNG', 'Electric', 'Hybrid'] as const;
 
 export const TRANSMISSION_TYPES = ['Manual', 'Automatic'] as const;
 
