@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import type { FilterStats } from '@/types/listing.types';
 import { FUEL_TYPES, TRANSMISSIONS, BODY_TYPES } from '@/types/filter.types';
 import { useDebounce } from '@/hooks/useDebounce';
 import { formatINR } from '@/lib/utils';
+import { parseFiltersFromUrl, buildListingUrl } from '@/lib/listing.utils';
 
 const MIN_PRICE = 50000;
 const MAX_PRICE = 3000000;
@@ -18,18 +19,15 @@ interface FilterSidebarProps {
 export function FilterSidebar({ stats }: FilterSidebarProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname();
     const [isPending, startTransition] = useTransition();
 
     // ── Optimistic state for checkboxes ──────────────────────────────────────
     const [optimisticFilters, setOptimisticFilters] = useState<Record<string, string[]>>({});
 
     useEffect(() => {
-        const obj: Record<string, string[]> = {};
-        Array.from(searchParams.keys()).forEach(k => {
-            obj[k] = searchParams.getAll(k);
-        });
-        setOptimisticFilters(obj);
-    }, [searchParams]);
+        setOptimisticFilters(parseFiltersFromUrl(pathname, searchParams));
+    }, [searchParams, pathname]);
 
     const isChecked = (key: string, value: string) => {
         return (optimisticFilters[key] || []).includes(value);
@@ -42,6 +40,7 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
     const [yearMax, setYearMax] = useState(searchParams.get('yearMax') ?? '');
     const [kmsMax, setKmsMax] = useState(searchParams.get('kmsMax') ?? '');
     const [brandSearch, setBrandSearch] = useState('');
+    const [showAllBrands, setShowAllBrands] = useState(false);
 
     const dPriceMin = useDebounce(priceMin, 600);
     const dPriceMax = useDebounce(priceMax, 600);
@@ -52,14 +51,25 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
     // ── Sync debounced inputs → URL ─────────────────────────────────────────
     const pushRange = useCallback(
         (key: string, val: string) => {
-            const params = new URLSearchParams(searchParams.toString());
-            if (val) { params.set(key, val); } else { params.delete(key); }
-            params.set('page', '1');
+            const nextFilters = parseFiltersFromUrl(pathname, searchParams);
+            let effectiveVal = val;
+
+            // Prevent pushing absolute defaults into the URL
+            if (key === 'priceMin' && Number(val) <= MIN_PRICE) effectiveVal = '';
+            if (key === 'priceMax' && Number(val) >= MAX_PRICE) effectiveVal = '';
+
+            if (effectiveVal) {
+                nextFilters[key] = [effectiveVal];
+            } else {
+                delete nextFilters[key];
+            }
+            nextFilters.page = ['1'];
+
             startTransition(() => {
-                router.push(`/used-cars?${params.toString()}`, { scroll: false });
+                router.push(buildListingUrl(nextFilters), { scroll: false });
             });
         },
-        [router, searchParams],
+        [router, searchParams, pathname],
     );
 
     useEffect(() => { pushRange('priceMin', dPriceMin); }, [dPriceMin]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -70,18 +80,18 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
 
     // ── Toggle checkbox filter ──────────────────────────────────────────────
     const toggleFilter = (key: string, value: string) => {
-        // Optimistic UI update
-        const current = optimisticFilters[key] || [];
+        const nextFilters = parseFiltersFromUrl(pathname, searchParams);
+        const current = nextFilters[key] || [];
         const next = current.includes(value) ? current.filter(v => v !== value) : [...current, value];
+
+        // Optimistic UI update
         setOptimisticFilters(prev => ({ ...prev, [key]: next }));
 
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete(key);
-        next.forEach((v) => params.append(key, v));
-        params.set('page', '1');
+        nextFilters[key] = next;
+        nextFilters.page = ['1'];
 
         startTransition(() => {
-            router.push(`/used-cars?${params.toString()}`, { scroll: false });
+            router.push(buildListingUrl(nextFilters), { scroll: false });
         });
     };
 
@@ -105,6 +115,8 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
     const filteredBrands = stats.brands.filter((b) =>
         b.name.toLowerCase().includes(brandSearch.toLowerCase()),
     );
+
+    const displayBrands = (showAllBrands || brandSearch) ? filteredBrands : filteredBrands.slice(0, 5);
 
     const clearAll = () => {
         setPriceMin(''); setPriceMax('');
@@ -203,7 +215,7 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
                     </div>
                 )}
                 <div className="max-h-48 overflow-y-auto space-y-1 pr-1">
-                    {filteredBrands.map((brand) => (
+                    {displayBrands.map((brand) => (
                         <CheckboxItem
                             key={brand._id}
                             label={brand.name}
@@ -212,6 +224,14 @@ export function FilterSidebar({ stats }: FilterSidebarProps) {
                             onChange={() => toggleFilter('brand', brand.slug)}
                         />
                     ))}
+                    {!showAllBrands && !brandSearch && filteredBrands.length > 5 && (
+                        <button
+                            onClick={() => setShowAllBrands(true)}
+                            className="text-xs text-primary font-medium hover:underline mt-2 inline-block pt-1"
+                        >
+                            +{filteredBrands.length - 5} more brands
+                        </button>
+                    )}
                     {filteredBrands.length === 0 && (
                         <p className="text-xs text-muted-foreground py-2">No brands found</p>
                     )}
@@ -318,10 +338,10 @@ function CheckboxItem({
                     {label}
                 </span>
             </div>
-            <span className={`text-[11px] tabular-nums ${count === 0 ? 'text-muted-foreground/50' : 'text-muted-foreground'
+            {/* <span className={`text-[11px] tabular-nums ${count === 0 ? 'text-muted-foreground/50' : 'text-muted-foreground'
                 }`}>
                 ({count})
-            </span>
+            </span> */}
         </label>
     );
 }

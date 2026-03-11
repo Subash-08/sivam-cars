@@ -56,7 +56,9 @@ export default function ContactInfoSection(): React.JSX.Element {
                         Contact Information
                     </h2>
                     <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-                        Reach out to us through any of the channels below.
+                        Whether you want to <a href="/used-cars" className="text-primary hover:underline">buy a verified car</a>,{' '}
+                        <a href="/sell-car" className="text-primary hover:underline">sell your old vehicle</a>, or{' '}
+                        <a href="/loan" className="text-primary hover:underline">get a car loan</a>, reach out to us through any of the channels below.
                     </p>
                 </div>
 

@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { parseFiltersFromUrl, buildListingUrl } from '@/lib/listing.utils';
 
 interface ListingPaginationProps {
     pagination: {
@@ -16,13 +17,16 @@ interface ListingPaginationProps {
 export function ListingPagination({ pagination }: ListingPaginationProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     if (pagination.totalPages <= 1) return null;
 
     const goToPage = (page: number) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('page', String(page));
-        router.push(`/used-cars?${params.toString()}`);
+        const nextFilters = parseFiltersFromUrl(pathname, searchParams);
+        nextFilters.page = [String(page)];
+        // Retain scroll position normally by default, or disable scroll: false if preferred.
+        // We'll leave it as default push.
+        router.push(buildListingUrl(nextFilters));
     };
 
     // Build page number array with ellipsis

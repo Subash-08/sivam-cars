@@ -52,18 +52,23 @@ export default function OurStorySection(): React.JSX.Element {
                                 {siteConfig.name} was founded with a simple mission — to make
                                 buying a pre-owned car a trustworthy, stress-free experience.
                                 In a market often clouded by uncertainty, we set out to bring
-                                clarity and confidence to every transaction.
+                                clarity and confidence to every transaction, whether you're searching for{' '}
+                                <a href="/used-suv-cars" className="text-primary hover:underline">premium used SUVs</a> or reliable
+                                {' '}<a href="/used-cars-under-5-lakh" className="text-primary hover:underline">cars under 5 Lakh</a>.
                             </p>
                             <p>
                                 Unlike large marketplaces where accountability gets diluted
                                 across hundreds of sellers, {siteConfig.name} operates as a
                                 single-dealer platform. Every vehicle you see is personally
-                                sourced, inspected, and guaranteed by us.
+                                sourced, inspected, and guaranteed by us. View our complete inventory of{' '}
+                                <a href="/used-cars-in-salem" className="text-primary hover:underline">used cars in Salem</a>.
                             </p>
                             <p>
                                 Our commitment goes beyond just selling cars. We believe in
                                 building lasting relationships through honest pricing, verified
-                                documentation, and genuine after-sale support.
+                                documentation, and genuine after-sale support. Explore our top{' '}
+                                <a href="/used-maruti-suzuki-cars" className="text-primary hover:underline">Maruti Suzuki</a> and{' '}
+                                <a href="/used-hyundai-cars" className="text-primary hover:underline">Hyundai</a> models today.
                             </p>
                         </div>
 

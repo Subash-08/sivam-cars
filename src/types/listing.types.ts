@@ -37,6 +37,7 @@ export interface ListingFilters {
     fuel?: string | string[];
     bodyType?: string | string[];
     transmission?: string | string[];
+    city?: string | string[];
     sort?: ListingSortOption;
 }
 

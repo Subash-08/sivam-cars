@@ -143,9 +143,16 @@ export class CarFilterService {
             if (!value) continue;
 
             const values = Array.isArray(value) ? value : [value];
-            const validValues = values.filter((v) =>
-                (VALID_ENUM_VALUES[field] as readonly string[]).includes(v),
-            );
+
+            // Map inputs to the exact casing stored in the DB (case-insensitive resolution)
+            const validValues = values
+                .map((v) => {
+                    const searchV = String(v).trim().toLowerCase();
+                    return (VALID_ENUM_VALUES[field] as readonly string[]).find(
+                        (validStr) => validStr.toLowerCase() === searchV
+                    );
+                })
+                .filter(Boolean); // Remove undefined (invalid inputs)
 
             if (validValues.length === 0) {
                 // All values were invalid → no results possible

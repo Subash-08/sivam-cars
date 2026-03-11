@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
+import { parseFiltersFromUrl, buildListingUrl } from '@/lib/listing.utils';
 import { LISTING_SORT_OPTIONS, type ListingSortOption } from '@/types/listing.types';
 
 interface SortDropdownProps {
@@ -11,16 +12,17 @@ interface SortDropdownProps {
 export function SortDropdown({ currentSort }: SortDropdownProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     const onChange = (value: string) => {
-        const params = new URLSearchParams(searchParams.toString());
+        const nextFilters = parseFiltersFromUrl(pathname, searchParams);
         if (value === 'newest') {
-            params.delete('sort');
+            delete nextFilters.sort;
         } else {
-            params.set('sort', value);
+            nextFilters.sort = [value];
         }
-        params.set('page', '1');
-        router.push(`/used-cars?${params.toString()}`, { scroll: false });
+        nextFilters.page = ['1'];
+        router.push(buildListingUrl(nextFilters), { scroll: false });
     };
 
     return (

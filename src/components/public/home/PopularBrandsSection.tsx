@@ -26,7 +26,7 @@ export default function PopularBrandsSection({ brands }: { brands: HomepageBrand
                     {brands.map((brand) => (
                         <Link
                             key={brand._id}
-                            href={`/used-cars?page=1&brand=${brand.slug}`}
+                            href={`/used-${brand.slug}-cars`}
                             className="group flex flex-col items-center justify-center gap-3 p-5 sm:p-6 bg-card border border-border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/40"
                         >
                             {/* Logo */}

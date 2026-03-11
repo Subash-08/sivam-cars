@@ -369,7 +369,7 @@ export default function SellCarForm({ brands }: SellCarFormProps): React.JSX.Ele
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                placeholder="+91 98765 43210"
+                                placeholder="+91 97150 15015"
                                 className="w-full rounded-xl border border-border bg-muted px-4 py-3 text-sm font-medium text-foreground transition-all focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
                                 aria-label="Your phone number"
                             />

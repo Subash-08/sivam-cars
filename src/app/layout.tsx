@@ -30,6 +30,12 @@ export const metadata: Metadata = {
         title: `${siteConfig.name} — ${siteConfig.tagline}`,
         description: siteConfig.description,
     },
+    twitter: {
+        card: 'summary_large_image',
+        title: `${siteConfig.name} — ${siteConfig.tagline}`,
+        description: siteConfig.description,
+        creator: '@sivamcars',
+    },
     robots: { index: true, follow: true },
 };
 

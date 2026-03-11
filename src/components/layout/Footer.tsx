@@ -9,32 +9,13 @@ import {
     Phone,
     MapPin,
     Clock,
-    ChevronRight,
-    Shield,
-    FileText,
-    HelpCircle
+    ChevronRight
 } from 'lucide-react';
+import { siteConfig } from '@/config/site';
 import Image from 'next/image';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
-
-    // Mocked Site Config (Sivam Cars Content)
-    const siteConfig = {
-        name: 'Sivam Cars',
-        description: 'Your trusted destination for premium new and pre-owned cars. Quality vehicles with exceptional service and transparent pricing.',
-        address: '123 Auto Hub Bypass Rd, Auto City, TN',
-        phone: '+91 98765 43210',
-        email: 'contact@sivamcars.com',
-        workingHours: 'Mon - Sun: 9:00 AM - 8:00 PM',
-        social: {
-            facebook: '#',
-            instagram: '#',
-            twitter: '#',
-            youtube: '#',
-            whatsapp: '#'
-        }
-    };
 
     // Navigation Items
     const PUBLIC_NAV_ITEMS = [
@@ -44,21 +25,21 @@ export default function Footer() {
         { label: 'Contact', href: '/contact' }
     ];
 
-    // Quick links
+    // Quick links optimized for SEO Internal Linking
     const quickLinks = {
         popular: [
-            { label: 'New Cars', href: '/cars?sort=newest' },
-            { label: 'Featured Cars', href: '/cars?featured=true' },
-            { label: 'Under ₹5 Lakh', href: '/cars?maxPrice=500000' },
-            { label: 'SUVs', href: '/cars?bodyType=SUV' },
-            { label: 'Electric Cars', href: '/cars?fuelType=Electric' }
+            { label: 'Used Cars in Attur', href: '/used-cars-in-attur' },
+            { label: 'Used Cars in Salem', href: '/used-cars-in-salem' },
+            { label: 'Used Cars Under 5 Lakh', href: '/used-cars-under-5-lakh' },
+            { label: 'Used SUVs', href: '/used-suv-cars' },
+            { label: 'Used Hyundai Cars', href: '/used-hyundai-cars' }
         ],
         resources: [
             { label: 'EMI Calculator', href: '/emi-calculator' },
             { label: 'Car Loan', href: '/loan' },
             { label: 'Sell Your Car', href: '/sell' },
-            { label: 'Blog', href: '/blog' },
-            { label: 'FAQs', href: '/faqs' }
+            { label: 'Contact Us', href: '/contact' },
+            { label: 'About Us', href: '/about' }
         ]
     };
 
@@ -77,24 +58,23 @@ export default function Footer() {
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-red-900/15 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-red-950/20 rounded-full blur-[120px] pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 py-8 relative z-10">
 
                 {/* Top Section with Logo and Socials */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-12 border-b border-white/10">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-6 border-b border-white/10 ">
 
                     {/* Brand Section */}
-                    <div className="max-w-md">
-                        <div className="flex items-center gap-4 mb-4">
+                    <div className="max-w-lg flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                        <div className="flex-shrink-0 flex items-center justify-center">
                             <Image
                                 src="/assets/images/logo-removebg-preview.png"
                                 alt={siteConfig.name}
-                                width={150}
-                                height={80}
-                                className="w-[150px] h-auto object-cover"
+                                width={160}
+                                height={75}
+                                className="w-[140px] sm:w-[160px] h-auto object-contain"
                             />
-                            <h2 className="text-2xl font-bold text-white tracking-tight">{siteConfig.name}</h2>
                         </div>
-                        <p className="text-zinc-400 leading-relaxed text-sm">
+                        <p className="text-zinc-400 leading-relaxed text-sm flex-1 flex text-center sm:text-left items-center sm:items-start mt-2 sm:mt-0">
                             {siteConfig.description}
                         </p>
                     </div>
@@ -143,7 +123,7 @@ export default function Footer() {
                 </div>
 
                 {/* Links Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-6">
 
                     {/* Navigation */}
                     <div>
@@ -247,26 +227,8 @@ export default function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 mt-2">
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-
-                        <div className="flex flex-wrap justify-center gap-6 order-2 lg:order-1">
-                            <Link href="/privacy" className="text-zinc-500 hover:text-zinc-300 text-sm transition flex items-center gap-1">
-                                <Shield className="h-3 w-3" /> Privacy
-                            </Link>
-                            <Link href="/terms" className="text-zinc-500 hover:text-zinc-300 text-sm transition flex items-center gap-1">
-                                <FileText className="h-3 w-3" /> Terms
-                            </Link>
-                            <Link href="/sitemap" className="text-zinc-500 hover:text-zinc-300 text-sm transition flex items-center gap-1">
-                                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                                </svg> Sitemap
-                            </Link>
-                            <Link href="/disclaimer" className="text-zinc-500 hover:text-zinc-300 text-sm transition flex items-center gap-1">
-                                <HelpCircle className="h-3 w-3" /> Disclaimer
-                            </Link>
-                        </div>
-
-                        <p className="text-zinc-500 text-sm text-center lg:text-right order-1 lg:order-2">
+                    <div className="flex justify-center items-center">
+                        <p className="text-zinc-500 text-sm text-center">
                             © {currentYear} {siteConfig.name}. All rights reserved. |
                             <span className="ml-1 block sm:inline">
                                 Designed by <a href="https://nkmoderntechnology.com" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:text-red-400 font-medium transition-colors">NK Modern Technology</a>

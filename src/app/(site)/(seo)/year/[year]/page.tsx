@@ -7,33 +7,37 @@ import { SharedListingLayout } from '@/components/public/listing/SharedListingLa
 const filterService = new CarFilterService(false);
 
 interface PageProps {
+    params: Promise<{ year: string }>;
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+    const { year } = await params;
     const raw = await searchParams;
-    const brands = raw.brand ? (Array.isArray(raw.brand) ? raw.brand : [raw.brand]) : [];
-    const result = await filterService.getPublicListing(parseSearchParams(raw));
+    const yearNum = parseInt(year, 10);
+    const filters = parseSearchParams(raw, { yearMin: yearNum, yearMax: yearNum });
+    const result = await filterService.getPublicListing(filters);
 
     const hasComplexFilters = Object.keys(raw).some(k => k !== 'page');
 
     return generateListingMetadata({
-        brands,
-        priceMin: raw.priceMin ? Number(raw.priceMin) : undefined,
-        priceMax: raw.priceMax ? Number(raw.priceMax) : undefined,
         total: result.pagination.total,
-        canonicalPath: '/used-cars',
+        brands: raw.brand ? (Array.isArray(raw.brand) ? raw.brand : [raw.brand]) : [],
+        canonicalPath: `/${year}-used-cars`,
         page: raw.page ? Number(raw.page) : undefined,
     }, hasComplexFilters);
 }
 
-export default async function BuyCarsPage({ searchParams }: PageProps) {
+export default async function YearCarsPage({ params, searchParams }: PageProps) {
+    const { year } = await params;
     const raw = await searchParams;
+    const yearNum = parseInt(year, 10);
 
     return (
         <SharedListingLayout
             searchParams={raw}
-            title="Buy Used Cars"
+            filterOverrides={{ yearMin: yearNum, yearMax: yearNum }}
+            title={`${year} Used Cars`}
         />
     );
 }

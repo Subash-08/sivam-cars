@@ -1,13 +1,15 @@
 import Link from 'next/link';
 
 const categories = [
-    { title: 'SUVs', slug: '/used-cars?bodyType=suv' },
-    { title: 'Sedans', slug: '/used-cars?bodyType=sedan' },
-    { title: 'Hatchbacks', slug: '/used-cars?bodyType=hatchback' },
-    { title: 'Automatic', slug: '/used-cars?transmission=automatic' },
-    { title: 'Manual', slug: '/used-cars?transmission=manual' },
-    { title: 'Petrol Cars', slug: '/used-cars?fuel=petrol' },
-    { title: 'Diesel Cars', slug: '/used-cars?fuel=diesel' },
+    { title: 'SUVs', slug: '/used-suv-cars' },
+    { title: 'Sedans', slug: '/used-sedan-cars' },
+    { title: 'Hatchbacks', slug: '/used-hatchback-cars' },
+    { title: 'Automatic', slug: '/used-automatic-cars' },
+    { title: 'Manual', slug: '/used-manual-cars' },
+    { title: 'Petrol Cars', slug: '/used-petrol-cars' },
+    { title: 'Diesel Cars', slug: '/used-diesel-cars' },
+    { title: 'Under 5 Lakh', slug: '/used-cars-under-5-lakh' },
+    { title: 'In Attur', slug: '/used-cars-in-attur' },
     { title: 'Car Buying Tips', slug: '/blog' },
 ];
 

@@ -66,8 +66,11 @@ export default function LoanFeaturesSection(): React.JSX.Element {
                         <span className="text-primary">Benefits</span>
                     </h2>
                     <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-                        Experience a seamless car loan journey with these
-                        advantages.
+                        Whether you are financing a{' '}
+                        <a href="/used-suv-cars" className="text-primary hover:underline">premium SUV</a>{' '}
+                        or searching for{' '}
+                        <a href="/used-cars-under-5-lakh" className="text-primary hover:underline">budget cars under 5 Lakh</a>,
+                        experience a seamless car loan journey with these advantages.
                     </p>
                 </div>
 
