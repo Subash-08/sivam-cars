@@ -1,18 +1,43 @@
+'use client';
+
 import { formatINR, formatKms } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
 import type { CarDetail } from '@/services/public/car-detail.service';
-import { Shield, CheckCircle, MapPin, FileText, Calendar, Gauge, Fuel, Settings, Users, Car } from 'lucide-react';
+import { Shield, CheckCircle, MapPin, FileText, Calendar, Gauge, Fuel, Settings, Users, Car, Phone, MessageCircle } from 'lucide-react';
 import { LeadForm } from '@/components/public/detail/LeadForm';
+import { trackEvent } from '@/lib/analytics';
 
 interface StickySidebarProps {
     car: CarDetail;
 }
 
 export function StickySidebar({ car }: StickySidebarProps) {
+    const fullCarName = `${car.year} ${car.brand.name} ${car.name}`;
+
+    const handleCallClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        trackEvent("click_call", { car_name: fullCarName });
+        const url = `tel:${siteConfig.phone}`;
+        setTimeout(() => {
+            window.location.href = url;
+        }, 150);
+    };
+
+    const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        trackEvent("click_whatsapp", { car_name: fullCarName });
+        const url = `${siteConfig.social.whatsapp}?text=${encodeURIComponent(
+            `Hi, I'm interested in this car.\n\n• Car: ${fullCarName}\n• Location: ${car.location.city}${car.location.state ? `, ${car.location.state}` : ''}\n\nCould you please share:\n• Final price\n• Availability\n\nCar link: ${siteConfig.url}/cars/${car.slug}`
+        )}`;
+        setTimeout(() => {
+            window.open(url, "_blank");
+        }, 150);
+    };
+
     return (
         <aside className="sticky top-24 space-y-5">
             {/* 1. TITLE BLOCK */}
-            <div className="bg-card rounded-xl border border-border p-5">
+            <div className="bg-card rounded-xl border border-border shadow-sm p-3">
                 <h1 className="text-xl font-bold text-foreground">
                     {car.year} {car.brand.name} {car.name}
                 </h1>
@@ -33,7 +58,7 @@ export function StickySidebar({ car }: StickySidebarProps) {
             </div>
 
             {/* 2. PRICE BLOCK */}
-            <div className="bg-card rounded-xl border border-border p-5 card-elevated">
+            <div className="bg-card  border-gray-300 rounded-xl border border-border p-3 card-elevated">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-1">
                     Asking Price
                 </p>
@@ -54,30 +79,9 @@ export function StickySidebar({ car }: StickySidebarProps) {
                 </div>
             </div>
 
-            {/* 4. PRIMARY CTA SECTION */}
-            {/* {!car.isSold && (
-                <div className="space-y-3">
-                    <a
-                        href={`tel:${siteConfig.phone}`}
-                        className="w-full inline-flex items-center justify-center gap-2 h-14 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-base transition-colors shadow-sm"
-                    >
-                        📞 Call Dealer Now
-                    </a>
-                    <a
-                        href={`${siteConfig.social.whatsapp}?text=${encodeURIComponent(
-                            `Hi, I'm interested in the ${car.year} ${car.brand.name} ${car.name} (${siteConfig.url}/cars/${car.slug})`,
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 h-14 rounded-xl border-2 border-success text-success font-bold text-base transition-colors hover:bg-success hover:text-primary-foreground"
-                    >
-                        💬 Chat on WhatsApp
-                    </a>
-                </div>
-            )} */}
 
             {/* 3. QUICK HIGHLIGHTS ROW */}
-            <div className="bg-card rounded-xl border border-border p-5">
+            <div className="bg-card  border-gray-300 rounded-xl border border-border p-3">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
                     Quick Highlights
                 </h3>
@@ -148,8 +152,34 @@ export function StickySidebar({ car }: StickySidebarProps) {
                 </div>
             </div>
 
+            {/* 4. PRIMARY CTA SECTION */}
+            {!car.isSold && (
+                <div className="flex flex-col gap-3 w-full">
+                    <a
+                        href={`tel:${siteConfig.phone}`}
+                        onClick={handleCallClick}
+                        className="w-full flex items-center justify-center gap-2 h-14 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-base transition-colors shadow-sm"
+                    >
+                        <Phone className="w-5 h-5" /> Call Dealer Now
+                    </a>
+
+                    <a
+                        href={`${siteConfig.social.whatsapp}?text=${encodeURIComponent(
+                            `Hi, I'm interested in this car.\n\n• Car: ${car.year} ${car.brand.name} ${car.name}\n• Location: ${car.location.city}${car.location.state ? `, ${car.location.state}` : ''}\n\nCould you please share:\n• Final price\n• Availability\n\nCar link: ${siteConfig.url}/cars/${car.slug}`
+                        )}`}
+                        onClick={handleWhatsAppClick}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center gap-2 h-14 rounded-xl border-2 border-success text-success font-bold text-base transition-colors hover:bg-success hover:text-primary-foreground"
+                    >
+                        <MessageCircle className="w-5 h-5" /> Chat on WhatsApp
+                    </a>
+                </div>
+            )}
+
+
             {/* 6. DETAILS BLOCK */}
-            {/* <div className="bg-card rounded-xl border border-border p-5 space-y-3.5">
+            {/* <div className="bg-card rounded-xl border border-border p-3 space-y-3.5">
 
                 <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2 text-muted-foreground">
@@ -164,7 +194,7 @@ export function StickySidebar({ car }: StickySidebarProps) {
 
             {/* 5. LEAD FORM BLOCK */}
             {!car.isSold && (
-                <div className="bg-card rounded-xl border border-border p-5">
+                <div className="bg-card rounded-xl border border-border p-3">
                     <LeadForm
                         carId={car._id}
                         carName={`${car.year} ${car.brand.name} ${car.name}`}
@@ -175,7 +205,7 @@ export function StickySidebar({ car }: StickySidebarProps) {
 
 
             {/* 7. TRUST BLOCK */}
-            <div className="bg-card rounded-xl border border-border p-5 space-y-4">
+            <div className="bg-card rounded-xl border border-border p-3 space-y-4">
                 {car.isFeatured && (
                     <div className="flex items-start gap-3">
                         <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
@@ -218,7 +248,7 @@ export function StickySidebar({ car }: StickySidebarProps) {
             </div>
 
             {/* 8. DEALER INFO */}
-            <div className="bg-card rounded-xl border border-border p-5">
+            <div className="bg-card rounded-xl border border-border p-3">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-3">
                     Dealership Info
                 </p>

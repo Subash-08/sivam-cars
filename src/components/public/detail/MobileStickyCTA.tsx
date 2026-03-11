@@ -2,6 +2,7 @@
 
 import { trackEvent } from '@/lib/analytics';
 import { siteConfig } from '@/config/site';
+import { Phone, MessageCircle } from 'lucide-react';
 
 interface MobileStickyCTAProps {
     carName: string;
@@ -18,7 +19,7 @@ export function MobileStickyCTA({
 
     const handleCallClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        trackEvent("car_enquiry", { car_name: fullCarName });
+        trackEvent("click_call", { car_name: fullCarName });
         const url = `tel:${siteConfig.phone}`;
         setTimeout(() => {
             window.location.href = url;
@@ -27,7 +28,7 @@ export function MobileStickyCTA({
 
     const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        trackEvent("car_enquiry", { car_name: fullCarName });
+        trackEvent("click_whatsapp", { car_name: fullCarName });
         const url = `${siteConfig.social.whatsapp}?text=${encodeURIComponent(
             `Hi, I'm interested in the ${fullCarName}`
         )}`;
@@ -43,7 +44,7 @@ export function MobileStickyCTA({
                 onClick={handleCallClick}
                 className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground font-semibold text-sm transition-colors"
             >
-                📞 Call Now
+                <Phone className="w-4 h-4" /> Call Now
             </a>
             <a
                 href={`${siteConfig.social.whatsapp}?text=${encodeURIComponent(
@@ -52,7 +53,7 @@ export function MobileStickyCTA({
                 onClick={handleWhatsAppClick}
                 className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-lg bg-success text-primary-foreground font-semibold text-sm transition-colors hover:opacity-90"
             >
-                💬 WhatsApp
+                <MessageCircle className="w-4 h-4" /> WhatsApp
             </a>
         </div>
     );

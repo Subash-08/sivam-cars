@@ -6,6 +6,7 @@ import {
     Loader2,
     ShieldCheck,
 } from 'lucide-react';
+import { trackEvent } from '@/lib/analytics';
 
 interface SellCarFormProps {
     brands: string[];
@@ -96,6 +97,11 @@ export default function SellCarForm({ brands }: SellCarFormProps): React.JSX.Ele
             if (!res.ok) {
                 throw new Error('Failed to submit. Please try again.');
             }
+
+            trackEvent("sell_car_submit", {
+                car_brand: formData.brand,
+                expected_price: formData.expectedPrice
+            });
 
             setIsSuccess(true);
         } catch (err) {

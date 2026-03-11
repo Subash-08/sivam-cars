@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
 import { toast } from 'react-hot-toast';
 import { Send, CheckCircle } from 'lucide-react';
+import { trackEvent } from '@/lib/analytics';
 
 export default function ContactForm(): React.JSX.Element {
     const [submitted, setSubmitted] = useState(false);
@@ -47,6 +48,7 @@ export default function ContactForm(): React.JSX.Element {
                 return;
             }
 
+            trackEvent("contact_lead");
             toast.success('Message sent! We\'ll get back to you shortly.');
             setSubmitted(true);
             reset();

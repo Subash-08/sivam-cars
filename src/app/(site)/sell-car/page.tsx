@@ -66,6 +66,7 @@ const CAR_BRANDS = [
     'BMW',
     'Mercedes-Benz',
     'Audi',
+    'Other',
 ] as const;
 
 // ─── FAQ Data (for JSON-LD) ──────────────────────────────────────────────────

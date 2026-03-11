@@ -1,21 +1,22 @@
 import { formatKms } from '@/lib/utils';
 import type { CarDetail } from '@/services/public/car-detail.service';
+import { Calendar, Route, Fuel, Settings, Car, Palette, Users, FileText, Shield, MapPin, List } from 'lucide-react';
 
 interface OverviewGridProps {
     car: CarDetail;
 }
 
-const ICON_MAP: Record<string, string> = {
-    'Make Year': '📅',
-    'Km Driven': '🛣️',
-    'Fuel Type': '⛽',
-    'Transmission': '⚙️',
-    'Body Type': '🚗',
-    'Color': '🎨',
-    'Owners': '👤',
-    'Registration': '📋',
-    'Insurance': '🛡️',
-    'Location': '📍',
+const ICON_MAP: Record<string, React.ReactNode> = {
+    'Make Year': <Calendar className="w-5 h-5" />,
+    'Km Driven': <Route className="w-5 h-5" />,
+    'Fuel Type': <Fuel className="w-5 h-5" />,
+    'Transmission': <Settings className="w-5 h-5" />,
+    'Body Type': <Car className="w-5 h-5" />,
+    'Color': <Palette className="w-5 h-5" />,
+    'Owners': <Users className="w-5 h-5" />,
+    'Registration': <FileText className="w-5 h-5" />,
+    'Insurance': <Shield className="w-5 h-5" />,
+    'Location': <MapPin className="w-5 h-5" />,
 };
 
 export function OverviewGrid({ car }: OverviewGridProps) {
@@ -42,7 +43,7 @@ export function OverviewGrid({ car }: OverviewGridProps) {
                         key={item.label}
                         className="bg-card rounded-lg border border-border p-3.5 flex items-start gap-3"
                     >
-                        <span className="text-lg flex-shrink-0 mt-0.5">{ICON_MAP[item.label] ?? '📌'}</span>
+                        <span className="text-muted-foreground flex-shrink-0 mt-0.5">{ICON_MAP[item.label] ?? <List className="w-5 h-5" />}</span>
                         <div className="min-w-0">
                             <p className="text-[11px] text-muted-foreground uppercase tracking-wider font-medium">{item.label}</p>
                             <p className="text-sm font-semibold text-foreground mt-0.5 truncate">{item.value}</p>

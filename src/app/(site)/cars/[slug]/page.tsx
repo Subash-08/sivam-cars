@@ -5,7 +5,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Calendar, Route, Fuel, Settings, Users, Check } from 'lucide-react';
 import { CarDetailService } from '@/services/public/car-detail.service';
 import { generateDetailMetadata, generateVehicleJsonLd } from '@/lib/seo/vehicle-schema';
 import { formatINR, formatKms } from '@/lib/utils';
@@ -106,20 +106,20 @@ export default async function CarDetailPage({ params }: Props) {
                                     <p className="text-sm text-muted-foreground mt-1 capitalize">{car.color}</p>
                                 )}
 
-                                {/* Key Highlights */}
+                                // Key Highlights
                                 <div className="flex flex-wrap gap-3 mt-4">
                                     {[
-                                        { label: String(car.year), icon: '📅' },
-                                        { label: formatKms(car.kmsDriven), icon: '🛣️' },
-                                        { label: car.fuelType, icon: '⛽' },
-                                        { label: car.transmission, icon: '⚙️' },
-                                        ...(car.numberOfOwners ? [{ label: `${car.numberOfOwners} Owner${car.numberOfOwners > 1 ? 's' : ''}`, icon: '👤' }] : []),
-                                    ].map((item) => (
+                                        { label: String(car.year), icon: <Calendar className="w-3.5 h-3.5" /> },
+                                        { label: formatKms(car.kmsDriven), icon: <Route className="w-3.5 h-3.5" /> },
+                                        { label: car.fuelType, icon: <Fuel className="w-3.5 h-3.5" /> },
+                                        { label: car.transmission, icon: <Settings className="w-3.5 h-3.5" /> },
+                                        ...(car.numberOfOwners ? [{ label: `${car.numberOfOwners} Owner${car.numberOfOwners > 1 ? 's' : ''}`, icon: <Users className="w-3.5 h-3.5" /> }] : []),
+                                    ].map((item, index) => (
                                         <span
-                                            key={item.label}
+                                            key={index}
                                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-card border border-border text-xs font-medium text-foreground"
                                         >
-                                            <span>{item.icon}</span>
+                                            <span className="text-muted-foreground">{item.icon}</span>
                                             {item.label}
                                         </span>
                                     ))}
@@ -145,7 +145,7 @@ export default async function CarDetailPage({ params }: Props) {
                                         {car.benefitsAddons.map((item, i) => (
                                             <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-card border border-border">
                                                 <span className="mt-0.5 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                                    ✓
+                                                    <Check className="w-3.5 h-3.5" />
                                                 </span>
                                                 <div>
                                                     <p className="text-sm font-medium text-foreground">{item.key}</p>

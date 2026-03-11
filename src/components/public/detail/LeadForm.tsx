@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
 import { toast } from 'react-hot-toast';
 import { trackEvent } from '@/lib/analytics';
+import { CheckCircle } from 'lucide-react';
 
 interface LeadFormProps {
     carId: string;
@@ -60,8 +61,10 @@ export function LeadForm({ carId, carName }: LeadFormProps) {
 
     if (submitted) {
         return (
-            <div className="bg-card rounded-xl border border-border p-5 text-center">
-                <span className="text-3xl">✅</span>
+            <div className="bg-card rounded-xl border border-border p-5 text-center flex flex-col items-center">
+                <span className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center text-success mb-2">
+                    <CheckCircle className="w-6 h-6" />
+                </span>
                 <p className="text-sm font-medium text-foreground mt-2">Thank you!</p>
                 <p className="text-xs text-muted-foreground mt-1">
                     We&apos;ll call you about the {carName}
