@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 
 export const metadata: Metadata = {
     title: 'Dashboard',
@@ -73,16 +74,16 @@ const quickActions = [
             </svg>
         ),
     },
-    {
-        label: 'View Leads',
-        description: 'Check all inbound enquiries',
-        href: '/admin/leads',
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="9" y1="21" x2="9" y2="9" />
-            </svg>
-        ),
-    },
+    // {
+    //     label: 'View Leads',
+    //     description: 'Check all inbound enquiries',
+    //     href: '/admin/leads',
+    //     icon: (
+    //         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    //             <rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="9" y1="21" x2="9" y2="9" />
+    //         </svg>
+    //     ),
+    // },
     {
         label: 'Write Blog Post',
         description: 'Create SEO content for your website',
@@ -200,8 +201,8 @@ export default async function AdminDashboardPage() {
                                 </div>
                                 <span
                                     className={`shrink-0 mt-0.5 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${item.ok
-                                            ? 'bg-success/10 text-success border-success/20'
-                                            : 'bg-warning/10 text-warning border-warning/20'
+                                        ? 'bg-success/10 text-success border-success/20'
+                                        : 'bg-warning/10 text-warning border-warning/20'
                                         }`}
                                 >
                                     {item.ok ? '●' : '○'}
@@ -211,6 +212,9 @@ export default async function AdminDashboardPage() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Google Analytics Section */}
+            <AnalyticsDashboard />
 
         </div>
     );

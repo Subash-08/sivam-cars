@@ -5,8 +5,9 @@ export const siteConfig: SiteConfig = {
     logo: '/images/logo.png',
     tagline: 'Drive Your Dream',
     description:
-        'SivamCars — Your trusted single-dealer platform for quality pre-owned vehicles. Browse our handpicked inventory of reliable used cars at competitive prices.',
+        'Buy verified used cars in Kallakurichi, Attur and Salem from SivamCars. Explore inspected SUVs, sedans and hatchbacks with transparent pricing and easy EMI options.',
     url: 'https://sivamcars.com',
+    ogImage: 'https://sivamcars.com/og-image.jpg',
     phone: '+91 97150 15015',
     email: 'contact@sivamcars.com',
     address: 'MAIN ROAD, near BHARATHI WOMAN S COLLAGE, Kallakurichi, Tamil Nadu 606213',

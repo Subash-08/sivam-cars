@@ -8,7 +8,6 @@ import { siteConfig } from '@/config/site';
 // Sections
 import PopularBrandsSection from '@/components/public/home/PopularBrandsSection';
 import { InventoryDepthSection } from '@/components/public/home/InventoryDepthSection';
-import { BrowseByCategorySection } from '@/components/public/home/BrowseByCategorySection';
 import { WhyChooseUsSection } from '@/components/public/home/WhyChooseUsSection';
 import { BuyingProcessSection } from '@/components/public/home/BuyingProcessSection';
 import PrimaryCTASection from '@/components/public/shared/PrimaryCTASection';
@@ -18,16 +17,29 @@ import { HomeShowcaseSection } from '@/components/public/home/HomeShowcaseSectio
 import VideoShowcaseSection from '@/components/public/home/VideoShowcaseSection';
 import CustomerStoriesSection from '@/components/public/home/CustomerStoriesSection';
 
+import ServiceAreaSection from '@/components/public/home/ServiceAreaSection';
+import PopularSearchesSection from '@/components/public/home/PopularSearchesSection';
+
 export const metadata: Metadata = {
-    title: `${siteConfig.name} — ${siteConfig.tagline} | Quality Used Cars`,
+    title: `Used Cars in Kallakurichi | Second Hand Cars in Attur & Salem | ${siteConfig.name}`,
     description: siteConfig.description,
     openGraph: {
-        title: `${siteConfig.name} — Quality Pre-Owned Cars`,
+        title: `Used Cars in Kallakurichi | Second Hand Cars in Attur & Salem | ${siteConfig.name}`,
         description: siteConfig.description,
         url: siteConfig.url,
+        images: siteConfig.ogImage ? [{ url: siteConfig.ogImage }] : [],
     },
     alternates: {
         canonical: siteConfig.url,
+        languages: {
+            'en-IN': siteConfig.url,
+        },
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: `Used Cars in Kallakurichi | Second Hand Cars | ${siteConfig.name}`,
+        description: 'Buy verified used cars in Kallakurichi, Attur and Salem from SivamCars.',
+        images: siteConfig.ogImage ? [siteConfig.ogImage] : [],
     },
 };
 
@@ -50,18 +62,46 @@ export default async function HomePage() {
         '@context': 'https://schema.org',
         '@graph': [
             {
-                '@type': 'LocalBusiness',
+                '@type': 'Organization',
+                '@id': `${siteConfig.url}/#organization`,
+                name: siteConfig.name,
+                url: siteConfig.url,
+                logo: `${siteConfig.url}/logo.png`,
+                sameAs: [
+                    siteConfig.social.facebook,
+                    siteConfig.social.instagram,
+                    siteConfig.social.youtube,
+                ].filter(Boolean),
+            },
+            {
+                '@type': 'AutoDealer',
                 '@id': `${siteConfig.url}/#business`,
                 name: siteConfig.name,
                 url: siteConfig.url,
-                logo: `${siteConfig.url}/logo.png`, // Update if actual logo path differs
+                logo: `${siteConfig.url}/logo.png`,
                 description: siteConfig.description,
                 address: {
                     '@type': 'PostalAddress',
                     streetAddress: siteConfig.address,
+                    addressLocality: 'Kallakurichi',
+                    addressRegion: 'Tamil Nadu',
+                    postalCode: '606213',
                     addressCountry: 'IN',
                 },
+                geo: {
+                    '@type': 'GeoCoordinates',
+                    latitude: '11.7381',
+                    longitude: '78.9634',
+                },
+                areaServed: ['Kallakurichi', 'Attur', 'Salem', 'Ulundurpet'],
+                openingHours: 'Mo-Sa 09:00-19:00',
+                priceRange: '₹1,00,000 - ₹50,00,000',
                 telephone: siteConfig.phone,
+                sameAs: [
+                    siteConfig.social.facebook,
+                    siteConfig.social.instagram,
+                    siteConfig.social.youtube,
+                ].filter(Boolean),
             },
             {
                 '@type': 'WebSite',
@@ -70,9 +110,27 @@ export default async function HomePage() {
                 name: siteConfig.name,
                 potentialAction: {
                     '@type': 'SearchAction',
-                    target: `${siteConfig.url}/used-cars?brand={search_term_string}`,
+                    target: `${siteConfig.url}/used-cars?search={search_term_string}`,
                     'query-input': 'required name=search_term_string',
                 },
+            },
+            {
+                '@type': 'BreadcrumbList',
+                '@id': `${siteConfig.url}/#breadcrumb`,
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'Home',
+                        item: siteConfig.url,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: 'Used Cars',
+                        item: `${siteConfig.url}/used-cars`,
+                    },
+                ],
             },
             {
                 '@type': 'ItemList',
@@ -82,11 +140,23 @@ export default async function HomePage() {
                     '@type': 'ListItem',
                     position: index + 1,
                     item: {
-                        '@type': 'Product',
+                        '@type': 'Vehicle',
                         url: `${siteConfig.url}/cars/${car.slug}`,
                         name: `${car.brand?.name} ${car.name}`,
                         image: car.images?.[0]?.url,
                         description: `Year: ${car.year}, Fuel: ${car.fuelType}, KMs: ${car.kmsDriven}`,
+                        brand: {
+                            '@type': 'Brand',
+                            name: car.brand?.name,
+                        },
+                        vehicleModelDate: car.year?.toString(),
+                        mileageFromOdometer: {
+                            '@type': 'QuantitativeValue',
+                            value: car.kmsDriven,
+                            unitCode: 'KMT',
+                        },
+                        fuelType: car.fuelType,
+                        vehicleTransmission: car.transmission,
                         offers: {
                             '@type': 'Offer',
                             price: car.price,
@@ -112,6 +182,7 @@ export default async function HomePage() {
                 <HeroSection />
 
 
+
                 {/* Dynamic Showcase Sections (admin-managed) */}
                 {homeSections.map((section, idx) => (
                     <HomeShowcaseSection
@@ -132,10 +203,15 @@ export default async function HomePage() {
 
                 <InventoryDepthSection totalCars={totalActiveCars} />
 
+                <PopularSearchesSection />
                 {/* Internal Linking & Static Funnel/Trust Builders */}
-                <BrowseByCategorySection />
+                {/* <BrowseByCategorySection /> */}
+
+                {/* Local SEO Additions */}
+                {/* <LocalSEOContentBlock /> */}
                 <WhyChooseUsSection />
                 <BuyingProcessSection />
+                <ServiceAreaSection />
                 <CustomerStoriesSection stories={customerStories} />
 
                 <PrimaryCTASection />  {/* Video Showcase Sections */}

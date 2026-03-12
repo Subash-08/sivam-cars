@@ -27,6 +27,7 @@ export interface SiteConfig {
     tagline: string;
     description: string;
     url: string;
+    ogImage?: string;
     phone: string;
     email: string;
     address: string;

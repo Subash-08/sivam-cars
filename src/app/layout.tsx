@@ -18,6 +18,19 @@ export const metadata: Metadata = {
         template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
+    keywords: [
+        "used cars kallakurichi",
+        "second hand cars kallakurichi",
+        "used cars attur",
+        "used cars salem",
+        "used suv cars",
+        "used cars under 5 lakh",
+        "used hyundai cars",
+        "used kia cars",
+        "best used cars under 5 lakh",
+        "used suv cars in tamil nadu",
+        "second hand cars in attur"
+    ],
     metadataBase: new URL(siteConfig.url),
     openGraph: {
         type: 'website',
@@ -29,9 +42,16 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: `${siteConfig.name} — ${siteConfig.tagline}`,
-        description: siteConfig.description,
+        title: `Used Cars in Kallakurichi | Second Hand Cars | ${siteConfig.name}`,
+        description: 'Buy verified used cars in Kallakurichi, Attur and Salem from SivamCars.',
         creator: '@sivamcars',
+        images: siteConfig.ogImage ? [siteConfig.ogImage] : [],
+    },
+    alternates: {
+        canonical: siteConfig.url,
+        languages: {
+            'en-IN': siteConfig.url,
+        },
     },
     robots: { index: true, follow: true },
 };

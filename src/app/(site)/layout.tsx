@@ -7,9 +7,9 @@ import { GoogleAnalyticsTracker } from '@/components/providers/GoogleAnalyticsTr
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
-    title: 'Quality Pre-Owned Cars in Chennai | SivamCars',
+    title: 'Quality Pre-Owned Cars in Kallakurichi, Attur & Salem | SivamCars',
     description:
-        'Browse our handpicked selection of quality used cars in Chennai. Trusted single-dealer platform with verified vehicles, transparent pricing, and easy financing.',
+        'Browse our handpicked selection of quality used cars in Kallakurichi, Attur and Salem. Trusted single-dealer platform with verified vehicles, transparent pricing, and easy financing.',
 };
 
 export default function SiteLayout({

@@ -37,8 +37,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title,
         description,
+        keywords: [
+            "used cars kallakurichi",
+            "second hand cars kallakurichi",
+            "used cars attur",
+            "used cars salem",
+            "used suv cars",
+            "used cars under 5 lakh",
+            "used hyundai cars",
+            "used kia cars",
+            "best used cars under 5 lakh",
+            "used suv cars in tamil nadu",
+            "second hand cars in attur"
+        ],
         alternates: {
             canonical,
+            languages: {
+                'en-IN': canonical,
+            },
         },
         openGraph: {
             title: blog.og_title || title,

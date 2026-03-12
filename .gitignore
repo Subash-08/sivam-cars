@@ -22,3 +22,6 @@ tmp/
 uploads/
 *.tsbuildinfo
 .swc/
+
+# Google Analytics Service Account
+sivamcars-analytics-*.json

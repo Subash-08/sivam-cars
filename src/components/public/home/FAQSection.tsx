@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Script from 'next/script';
 
 interface FAQItem {
     question: string;
@@ -10,24 +11,24 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
     {
-        question: 'Are all cars inspected before listing?',
-        answer: 'Yes. Every vehicle undergoes a detailed inspection including engine health, mileage verification, documentation review, and road testing before being listed.',
+        question: 'Can I buy verified used cars in Kallakurichi from SivamCars?',
+        answer: 'Yes! SivamCars offers a wide selection of thoroughly inspected pre-owned vehicles right here in Kallakurichi. Every car passes strict quality checks before sales.',
     },
     {
-        question: 'Do you provide complete service history?',
-        answer: 'We provide available service records, ownership history, and documentation transparency to ensure full clarity before purchase.',
+        question: 'Does SivamCars provide car loan and EMI options?',
+        answer: 'Absolutely. We partner with trusted financial institutions to provide affordable used car loan options and flexible EMIs to make your purchase seamless.',
     },
     {
-        question: 'Can I schedule a test drive?',
-        answer: 'Absolutely. You can contact us directly to schedule a convenient test drive at our Salem location.',
+        question: 'Can I schedule a test drive in Attur?',
+        answer: 'Yes, you can schedule a test drive for any of our second-hand cars. Reach out to our team to arrange a convenient time and location for you, including near Attur.',
     },
     {
-        question: 'Is financing assistance available?',
-        answer: 'Yes, we assist customers with loan processing and documentation through trusted financial partners.',
+        question: 'Do you deliver cars to Salem or Ulundurpet?',
+        answer: 'We proudly serve customers across Tamil Nadu, including Salem, Ulundurpet, and Villupuram. Contact us directly to discuss delivery or viewing arrangements.',
     },
     {
-        question: 'Are prices negotiable?',
-        answer: 'We maintain transparent and fair pricing. Serious buyers are welcome to discuss offers in person.',
+        question: 'Are all your vehicles checked and verified?',
+        answer: 'Yes. Every used car undergoes a comprehensive 100+ point mechanical and documentation inspection to ensure you get complete peace of mind with your purchase.',
     },
 ];
 
@@ -38,8 +39,26 @@ export default function FAQSection() {
         setActiveIndex(activeIndex === index ? null : index);
     };
 
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(faq => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: faq.answer
+            }
+        }))
+    };
+
     return (
         <section className="py-16 sm:py-20 bg-zinc-50 relative overflow-hidden">
+            <Script
+                id="faq-jsonld"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
             {/* Subtle red background glow for light theme */}
             <div className="absolute top-0 left-1/2 w-[800px] h-[400px] bg-red-600/5 rounded-full blur-[120px] -translate-x-1/2 pointer-events-none" />
 

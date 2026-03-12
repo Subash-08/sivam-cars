@@ -28,7 +28,27 @@ export function generateDetailMetadata(car: CarDetail): Metadata {
     return {
         title,
         description,
-        alternates: { canonical },
+        keywords: [
+            "used cars kallakurichi",
+            "second hand cars kallakurichi",
+            "used cars attur",
+            "used cars salem",
+            "used suv cars",
+            "used cars under 5 lakh",
+            "used hyundai cars",
+            "used kia cars",
+            "best used cars under 5 lakh",
+            "used suv cars in tamil nadu",
+            "second hand cars in attur",
+            `${car.brand.name} used cars`,
+            `${car.year} ${car.name}`
+        ],
+        alternates: {
+            canonical,
+            languages: {
+                'en-IN': `${siteConfig.url}${canonical}`,
+            },
+        },
         openGraph: {
             title,
             description,
@@ -37,6 +57,14 @@ export function generateDetailMetadata(car: CarDetail): Metadata {
             siteName: siteConfig.name,
             ...(primaryImage && {
                 images: [{ url: primaryImage.url, alt: primaryImage.alt ?? car.name }],
+            }),
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            ...(primaryImage && {
+                images: [primaryImage.url],
             }),
         },
     };

@@ -88,7 +88,25 @@ export function generateListingMetadata(input: MetadataInput, hasComplexFilters:
     return {
         title,
         description: finalDescription.slice(0, 160),
-        alternates: { canonical },
+        keywords: [
+            "used cars kallakurichi",
+            "second hand cars kallakurichi",
+            "used cars attur",
+            "used cars salem",
+            "used suv cars",
+            "used cars under 5 lakh",
+            "used hyundai cars",
+            "used kia cars",
+            "best used cars under 5 lakh",
+            "used suv cars in tamil nadu",
+            "second hand cars in attur"
+        ],
+        alternates: {
+            canonical,
+            languages: {
+                'en-IN': `${siteConfig.url}${canonical}`,
+            },
+        },
         robots: hasComplexFilters ? { index: false, follow: true } : { index: true, follow: true },
         openGraph: {
             title,
@@ -96,6 +114,13 @@ export function generateListingMetadata(input: MetadataInput, hasComplexFilters:
             type: 'website',
             url: `${siteConfig.url}${canonical}`,
             siteName: siteConfig.name,
+            images: siteConfig.ogImage ? [{ url: siteConfig.ogImage }] : [],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description: finalDescription.slice(0, 160),
+            images: siteConfig.ogImage ? [siteConfig.ogImage] : [],
         },
     };
 }

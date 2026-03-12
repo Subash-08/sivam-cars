@@ -5,7 +5,7 @@ export const NAV_ITEMS: NavItem[] = [
     { label: 'Cars', href: '/admin/cars' },
     { label: 'Brands', href: '/admin/brands' },
     { label: 'Blog', href: '/admin/blogs' },
-    { label: 'Leads', href: '/admin/leads' },
+    // { label: 'Leads', href: '/admin/leads' },
     { label: 'Homepage', href: '/admin/home-sections' },
     { label: 'Hero Settings', href: '/admin/hero-settings' },
     { label: 'Customer Stories', href: '/admin/customer-stories' },
